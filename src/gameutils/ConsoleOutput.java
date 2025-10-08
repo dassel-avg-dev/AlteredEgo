@@ -58,7 +58,7 @@ public class ConsoleOutput {
 
     public void enemyRandomSkillChoice(Enemy enemy) {
         System.out.println();
-        System.out.println("-------------" +enemy.getName()+"'s Skills: ------------");
+        System.out.println("------------- " +enemy.getName()+"'s Skills: ------------");
         System.out.println("\t\t[0] Basic Attack");
         System.out.println("\t\t[1] Skill One: " + enemy.getSkillOneName());
         System.out.println("\t\t[2] Skill Two: " + enemy.getSkillTwoName());

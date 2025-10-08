@@ -89,29 +89,26 @@ public class Player extends GameCharacter implements Skills {
     }
 
     public void reduceSkillOneCooldown() {
-        this.skillOneCooldown++;
-        if(this.skillOneCooldown >=2) {
-            this.skillOneCooldown = 0;
+        if (this.skillOneCooldown > 0) {
+            this.skillOneCooldown--;
         }
     }
 
     public void reduceSkillTwoCooldown() {
-        this.skillTwoCooldown++;
-        if(this.skillTwoCooldown >= 2) {
-            this.skillOneCooldown = 0;
+        if (this.skillTwoCooldown > 0) {
+            this.skillTwoCooldown--;
         }
     }
 
     public void reduceSkillThreeCooldown() {
-        this.skillThreeCooldown++;
-        if(this.skillThreeCooldown >= 5) {
-            this.skillThreeCooldown = 0;
+        if (this.skillThreeCooldown > 0) {
+            this.skillThreeCooldown--;
         }
     }
 
     public int basicAttack() {
         int damage = random.nextInt(20, 31);
-        CO.printWithDelay("\n"+getName()+ " used Basic Attack: worth " +damage+ ", of damage!", 150);
+        CO.printWithDelay("\n"+getName()+ " used Basic Attack: worth " +damage+ ", worth of damage!", 150);
         return damage;
     }
 
@@ -133,15 +130,25 @@ public class Player extends GameCharacter implements Skills {
         return damage;
     }
 
-    public int getSkillOneManaUsage() {
+    public void activateSkillOneCooldown() {
+        this.skillOneCooldown = 2;
+    }
+    public void activateSkillTwoCooldown(){
+        this.skillTwoCooldown = 3;
+    }
+    public void activateSkillThreeCooldown() {
+        this.skillThreeCooldown = 5;
+    }
+
+    public int getSKillOneManaUsage() {
         return skillOneManaUsage;
     }
 
-    public int getSkillTwoManaUsage() {
+    public int getSKillTwoManaUsage() {
         return skillTwoManaUsage;
     }
 
-    public int getSkillThreeManaUsage() {
+    public int getSKillThreeManaUsage() {
         return skillThreeManaUsage;
     }
 
