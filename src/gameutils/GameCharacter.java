@@ -41,7 +41,8 @@ public abstract class GameCharacter {
     public void reduceMana(int newMana) {
         if(this.mana - newMana <= 0) {
             this.mana = 0;
-        } else {
+        }
+        else {
             this.mana -= newMana;
         }
 
@@ -50,7 +51,8 @@ public abstract class GameCharacter {
     public void increaseMana(int newMana) {
         if(newMana + this.mana > 200) {
             this.mana = 200;
-        } else {
+        }
+        else {
             this.mana += newMana;
         }
     }

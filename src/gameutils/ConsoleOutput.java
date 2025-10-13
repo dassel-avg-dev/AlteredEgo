@@ -1,6 +1,7 @@
 package gameutils;
 
 public class ConsoleOutput {
+    private static final int delayValue = 50;
     public ConsoleOutput() { }
 
     public static void printWithDelay(String text, int delay) {
@@ -8,7 +9,8 @@ public class ConsoleOutput {
             System.out.print(ch);
             try {
                 Thread.sleep(delay);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
@@ -16,8 +18,8 @@ public class ConsoleOutput {
     }
 
     public void gameTitle() {
-        printWithDelay("---------------- WELCOME TO ALTERED EGO ----------------", 50);
-        printWithDelay("--------- Fight Your Other Side or Suffer Forever ------", 50);
+        printWithDelay("---------------- WELCOME TO ALTERED EGO ----------------", delayValue);
+        printWithDelay("--------- Fight Your Other Side or Suffer Forever ------", delayValue);
     }
 
     public void playOrExitMenu() {
@@ -64,7 +66,7 @@ public class ConsoleOutput {
         System.out.println("\t\t[2] Skill Two: " + enemy.getSkillTwoName());
         System.out.println("\t\t[3] Skill Three: " + enemy.getSkillThreeName());
         System.out.println();
-        printWithDelay(enemy.getName()+ " is preparing for a counter attack..........", 80);
+        printWithDelay(enemy.getName()+ " is preparing for a counter attack..........", delayValue);
     }
 
 //    public void printManaStatus(Enemy enemy, ArrayList<String> playerSkills) {
