@@ -34,7 +34,8 @@ public class ConsoleOutput {
         System.out.println("\t\t[3] Earl");
         System.out.println("\t\t[4] The One John");
         System.out.println("\t\t[5] And Rew");
-        System.out.print("\t\tEnter choice (1, 2, 3, 4, or 5): ");
+        System.out.println("\t\t[6] OP Character");
+        System.out.print("\t\tEnter choice (1, 2, 3, 4, 5 or 6): ");
     }
 
     public void playerSkillChoices(Player player) {

@@ -2,7 +2,7 @@ package gameutils;
 import java.util.*;
 
 public class Player extends GameCharacter implements Skills {
-    private static final int delayValue = 50;
+    public static int delayValue = 50;
     public Random random = new Random();
     public ConsoleOutput CO = new ConsoleOutput();
     private String skillOneName;
@@ -73,6 +73,18 @@ public class Player extends GameCharacter implements Skills {
         return skillTwoName;
     }
 
+    public void setSkillOneCooldown(int skillOneCooldown) {
+        this.skillOneCooldown  = skillOneCooldown;
+    }
+
+    public void setSkillTwoCooldown(int skillTwoCooldown) {
+        this.skillTwoCooldown  = skillTwoCooldown;
+    }
+
+    public void setSkillThreeCooldown(int skilThreeCooldown) {
+        this.skillThreeCooldown  = skillThreeCooldown;
+    }
+
     public String getSkillThreeName() {
         return skillThreeName;
     }
@@ -110,7 +122,7 @@ public class Player extends GameCharacter implements Skills {
     @Override
     public int basicAttack() {
         int damage = random.nextInt(20, 31);
-        CO.printWithDelay("\n"+getName()+ " used Basic Attack: worth " +damage+ ", worth of damage!", delayValue);
+        CO.printWithDelay("\n"+getName()+ " used Basic Attack: " +damage+ " worth of damage!", delayValue);
         return damage;
     }
 
@@ -168,8 +180,5 @@ public class Player extends GameCharacter implements Skills {
     public boolean isSkillThreeUsable() {
         return (getMana() >= this.skillThreeManaUsage) ? true : false;
     }
-
-
-
 
 }

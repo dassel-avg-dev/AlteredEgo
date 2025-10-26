@@ -40,7 +40,7 @@ public class Main {
             try {
                 CO.characterChoices();
                 playerChoice = scanner.nextInt();
-                if(playerChoice < 1 || playerChoice > 5) {
+                if(playerChoice < 1 || playerChoice > 6) {
                     throw new InputMismatchException();
                 }
                 else {
@@ -59,6 +59,8 @@ public class Main {
             case 3 -> player = new Player("Earl", "Knee Strike", "Double Kick", "Dodge");
             case 4 -> player = new Player("The One John", "Upper Cut", "Counterpalm", "Flaring Punches");
             case 5 -> player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
+            case 6 -> player = new OPCharacter("OP Character", "OP Skill One", "OP Skill Two", "OP Skill Three");
+
         }
 
         int enemyChoice = 0;
@@ -127,10 +129,12 @@ public class Main {
                             CO.printWithDelay("\nNot enough mana to use " + player.getSkillOneName() + "! Choose again.", delayValue);
                             break;
                         }
-                        enemy.setHitpoints(player.skillOne());
-                        player.reduceMana(player.getSKillOneManaUsage());
-                        player.activateSkillOneCooldown();
-                        playerActed = true;
+                        else {
+                            enemy.setHitpoints(player.skillOne());
+                            player.reduceMana(player.getSKillOneManaUsage());
+                            player.activateSkillOneCooldown();
+                            playerActed = true;
+                        }
                     }
                     case 2 -> {
                         if (player.getSkillTwoCooldown() > 0) {
@@ -141,10 +145,12 @@ public class Main {
                             CO.printWithDelay("\nNot enough mana to use " + player.getSkillTwoName() + "! Choose again.", delayValue);
                             break;
                         }
-                        enemy.setHitpoints(player.skillTwo());
-                        player.reduceMana(player.getSKillTwoManaUsage());
-                        player.activateSkillTwoCooldown();
-                        playerActed = true;
+                        else {
+                            enemy.setHitpoints(player.skillTwo());
+                            player.reduceMana(player.getSKillTwoManaUsage());
+                            player.activateSkillTwoCooldown();
+                            playerActed = true;
+                        }
                     }
                     case 3 -> {
                         if (player.getSkillThreeCooldown() > 0) {
@@ -155,10 +161,12 @@ public class Main {
                             CO.printWithDelay("\nNot enough mana to use " + player.getSkillThreeName() + "! Choose again.", delayValue);
                             break;
                         }
-                        enemy.setHitpoints(player.skillThree());
-                        player.reduceMana(player.getSKillThreeManaUsage());
-                        player.activateSkillThreeCooldown();
-                        playerActed = true;
+                        else {
+                            enemy.setHitpoints(player.skillThree());
+                            player.reduceMana(player.getSKillThreeManaUsage());
+                            player.activateSkillThreeCooldown();
+                            playerActed = true;
+                        }
                     }
                 }
             }
@@ -252,10 +260,10 @@ public class Main {
         } while(isRunning);
 
         if(player.getHitpoints() > 0) {
-            CO.printWithDelay("\n" +player.getName()+ " wins!",90);
+            CO.printWithDelay("\n\n" +player.getName()+ " wins!",90);
         }
         else {
-            CO.printWithDelay("\n" +enemy.getName()+ " wins!",90);
+            CO.printWithDelay("\n\n" +enemy.getName()+ " wins!",90);
         }
 
         scanner.close();

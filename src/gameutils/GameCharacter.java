@@ -33,7 +33,8 @@ public abstract class GameCharacter {
     public void setHitpoints(int newHitpoints) {
         if(this.hitpoints - newHitpoints <= 0) {
             this.hitpoints = 0;
-        } else {
+        }
+        else {
             this.hitpoints -= newHitpoints;
         }
     }
