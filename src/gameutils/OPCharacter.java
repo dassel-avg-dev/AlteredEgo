@@ -13,7 +13,7 @@ public class OPCharacter extends Player implements Skills {
     @Override
     public int basicAttack() {
         int damage = 50;
-        CO.printWithDelay("\n"+getName()+ " used Basic Attack: worth " +damage+ ", worth of damage!", delayValue);
+        CO.printWithDelay("\n"+getName()+ " used Basic Attack: " +damage+ ", worth of damage!", delayValue);
         return damage;
     }
 

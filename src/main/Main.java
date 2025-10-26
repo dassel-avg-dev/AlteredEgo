@@ -13,6 +13,7 @@ public class Main {
         Enemy enemy = new Enemy();
 
         CO.gameTitle();
+        CO.loadingScreen();
 
         while(true) {
             try {
@@ -29,7 +30,7 @@ public class Main {
                 }
             }
             catch(InputMismatchException error) {
-                System.out.println("\n\t\tInvalid Input. Try again!");
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
                 scanner.nextLine();
             }
         }
@@ -47,7 +48,7 @@ public class Main {
                 }
             }
             catch(InputMismatchException error) {
-                System.out.println("\n\t\tInvalid Input. Try again!");
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
                 scanner.nextLine();
             }
         }
@@ -62,6 +63,28 @@ public class Main {
 
         }
 
+        char skipSegmentChoice = '0';
+        do {
+            try {
+                System.out.print("\nSkip narrative segment (Y / N): ");
+                skipSegmentChoice = scanner.next().toUpperCase().charAt(0);
+                if (skipSegmentChoice == 'N') {
+                    CO.specialEncounterMonologue(player);
+                    break;
+                }
+                else if (skipSegmentChoice != 'Y') {
+                    System.out.println("\n\t\t\tInvalid Input. Try again!");
+                }
+                else {
+                    break;
+                }
+            }
+            catch (InputMismatchException error) {
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                scanner.nextLine();
+            }
+        } while (skipSegmentChoice != 'Y');
+
         int enemyChoice = 0;
         while(true) {
             try {
@@ -70,7 +93,7 @@ public class Main {
                 break;
             }
             catch(InputMismatchException e) {
-                System.out.println("\n\t\tInvalid Input, Try Again!");
+                System.out.println("\n\t\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
             }
         }
@@ -82,6 +105,30 @@ public class Main {
             case 4 -> enemy = new Enemy("JF Void", "Void Chop", "Void Deflect", "Void Stagger Palm");
             case 5 -> enemy = new Enemy("Deidre", "Lightning Cut", "Thunder Cleave", "Final Turn");
         }
+
+        skipSegmentChoice = '0';
+        do {
+            try {
+                System.out.print("\nSkip narrative segment (Y / N): ");
+                skipSegmentChoice = scanner.next().toUpperCase().charAt(0);
+                if (skipSegmentChoice == 'N') {
+                    CO.specialEncounterMonologue(enemy);
+                    break;
+                }
+                else if (skipSegmentChoice != 'Y') {
+                    CO.specialEncounterCounterPart(player, enemy);
+                    System.out.println("\n\t\t\tInvalid Input. Try again!");
+                }
+                else {
+                    break;
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                scanner.nextLine();
+            }
+        } while (skipSegmentChoice != 'Y');
+        CO.specialEncounterCounterPart(player, enemy);
 
         boolean isRunning = true;
         do {
@@ -113,6 +160,9 @@ public class Main {
                         scanner.nextLine();
                     }
                 }
+
+                // Player Skill Dialogue
+                CO.playerSkillUseMonologue(player, playerSkillChoice);
 
                 switch(playerSkillChoice) {
                     case 0 -> {
@@ -187,6 +237,8 @@ public class Main {
 
             enemySkillChoice = random.nextInt(0, 4);
             CO.enemyRandomSkillChoice(enemy);
+
+            CO.enemySkillUseMonologue(enemy, enemySkillChoice);
 
             switch(enemySkillChoice) {
                 case 0 -> {
