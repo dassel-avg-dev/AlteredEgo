@@ -17,8 +17,7 @@ public class Main {
         while(true) {
             try {
                 CO.playOrExitMenu();
-                char playOrExit = scanner.next().charAt(0);
-                playOrExit = Character.toUpperCase(playOrExit);
+                char playOrExit = scanner.next().toUpperCase().charAt(0);
                 if(playOrExit == 'X') {
                     System.exit(1);
                 }
@@ -30,7 +29,7 @@ public class Main {
                 }
             }
             catch(InputMismatchException error) {
-                System.out.println("\t\tInvalid Input. Try again!");
+                System.out.println("\n\t\tInvalid Input. Try again!");
                 scanner.nextLine();
             }
         }
@@ -48,7 +47,7 @@ public class Main {
                 }
             }
             catch(InputMismatchException error) {
-                System.out.println("\t\tInvalid Input. Try again!");
+                System.out.println("\n\t\tInvalid Input. Try again!");
                 scanner.nextLine();
             }
         }
@@ -71,14 +70,14 @@ public class Main {
                 break;
             }
             catch(InputMismatchException e) {
-                System.out.println("\t\tInvalid Input, Try Again!");
+                System.out.println("\n\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
             }
         }
 
         switch(enemyChoice) {
             case 1 -> enemy = new Enemy("Kaniel Outis", "Image Burn", "Spirit Compression", "Sanity Drain");
-            case 2 -> enemy = new Enemy("Van Berskville", "Stab", "Parry", "Fang Sword Style");
+            case 2 -> enemy = new Enemy("Van Berskville", "Stab", "Getsuga", "Fang Sword Style");
             case 3 -> enemy = new Enemy("Asta Clover", "Arcane Blast", "Whirlwind", "Block");
             case 4 -> enemy = new Enemy("JF Void", "Void Chop", "Void Deflect", "Void Stagger Palm");
             case 5 -> enemy = new Enemy("Deidre", "Lightning Cut", "Thunder Cleave", "Final Turn");
@@ -110,7 +109,7 @@ public class Main {
                         }
                     }
                     catch (InputMismatchException e) {
-                        System.out.println("\t\tInvalid Input, Try Again!");
+                        System.out.println("\n\t\tInvalid Input, Try Again!");
                         scanner.nextLine();
                     }
                 }
@@ -260,10 +259,10 @@ public class Main {
         } while(isRunning);
 
         if(player.getHitpoints() > 0) {
-            CO.printWithDelay("\n\n" +player.getName()+ " wins!",90);
+            CO.printWithDelay("\n" +player.getName()+ " wins!\n\n",90);
         }
         else {
-            CO.printWithDelay("\n\n" +enemy.getName()+ " wins!",90);
+            CO.printWithDelay("\n" +enemy.getName()+ " wins!\n\n",90);
         }
 
         scanner.close();
