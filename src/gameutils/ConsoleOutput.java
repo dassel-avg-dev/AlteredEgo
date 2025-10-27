@@ -87,6 +87,23 @@ public class ConsoleOutput {
         }
     }
 
+    public void specialEncounterMonologue(Enemy enemy) {
+        System.out.println();
+        switch (enemy.getName()) {
+            case "Kaniel Outis" -> printWithDelay("Kaniel Outis: Who are you to decided to battle me?", 50);
+
+            case "Van Berskville" -> printWithDelay("Van Berskville: I'll take my revenge!", 50);
+
+            case "Asta Clover" -> printWithDelay("Asta Clover: I'll become the wizard king!", 50);
+
+            case "JF Void" -> printWithDelay("JF Void: All path ends to nothing", 50);
+
+            case "Deidre" -> printWithDelay("Deidre: I am the storm that is approaching", 50);
+
+
+        }
+    }
+
     public void specialEncounterCounterPart(Player player, Enemy enemy) {
         System.out.println();
         printWithDelay("\t\t\tINTERACTION PHASE\n", 50);
