@@ -5,7 +5,7 @@ import java.util.*;
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
     public static Random random = new Random();
-    private static final int delayValue = 50;
+    private static final int delayValue = 30;
 
     public static void main(String[] args) {
         ConsoleOutput CO = new ConsoleOutput();
@@ -128,7 +128,9 @@ public class Main {
                 scanner.nextLine();
             }
         } while (skipSegmentChoice != 'Y');
+
         CO.specialEncounterCounterPart(player, enemy);
+
 
         boolean isRunning = true;
         do {

@@ -187,7 +187,7 @@ public class ConsoleOutput {
                 switch (enemy.getName()) {
                     case "Kaniel Outis" -> {
                         printWithDelay("The One John: What the hell are you?", 50);
-                        printWithDelay("Kaniel Outis: ", 50);
+                        printWithDelay("Kaniel Outis: You're greatest demise", 50);
                     }
                     case "Van Berskville" -> {
                         printWithDelay("The One John: Revenge won’t save you", 50);
@@ -331,5 +331,19 @@ public class ConsoleOutput {
             }
         }
     }
+
+    public void pvpBattleGameMode(Player player, Enemy enemy) {
+
+    }
+
+    public void playerVsComputerGameMode(Player player, Enemy enemy) {
+
+    }
+
+    public void arcadeBatlleGameMode(Player player, Enemy enemy) {
+
+    }
+
+
 
 }
