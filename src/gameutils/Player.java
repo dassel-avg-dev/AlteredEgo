@@ -157,15 +157,15 @@ public class Player extends GameCharacter implements Skills {
         this.skillThreeCooldown = 5;
     }
 
-    public int getSKillOneManaUsage() {
+    public int getSkillOneManaUsage() {
         return skillOneManaUsage;
     }
 
-    public int getSKillTwoManaUsage() {
+    public int getSkillTwoManaUsage() {
         return skillTwoManaUsage;
     }
 
-    public int getSKillThreeManaUsage() {
+    public int getSkillThreeManaUsage() {
         return skillThreeManaUsage;
     }
 

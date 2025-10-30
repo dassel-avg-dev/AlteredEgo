@@ -45,9 +45,12 @@ public class Main {
         CO.printOrSkipNarrativeSegment(enemy);
         CO.specialEncounterCounterPart(player, enemy);
 
+        int round = 1;
         boolean isRunning = true;
         do {
             int playerSkillChoice = 0, enemySkillChoice = 0, newPlayerMana = 0, newEnemyMana = 0;
+
+            CO.showRoundStatus(round, player, enemy);
 
             System.out.println();
             //show both health and Mana
@@ -95,7 +98,7 @@ public class Main {
                         }
                         else {
                             enemy.setHitpoints(player.skillOne());
-                            player.reduceMana(player.getSKillOneManaUsage());
+                            player.reduceMana(player.getSkillOneManaUsage());
                             player.activateSkillOneCooldown();
                             playerActed = true;
                         }
@@ -111,7 +114,7 @@ public class Main {
                         }
                         else {
                             enemy.setHitpoints(player.skillTwo());
-                            player.reduceMana(player.getSKillTwoManaUsage());
+                            player.reduceMana(player.getSkillTwoManaUsage());
                             player.activateSkillTwoCooldown();
                             playerActed = true;
                         }
@@ -127,7 +130,7 @@ public class Main {
                         }
                         else {
                             enemy.setHitpoints(player.skillThree());
-                            player.reduceMana(player.getSKillThreeManaUsage());
+                            player.reduceMana(player.getSkillThreeManaUsage());
                             player.activateSkillThreeCooldown();
                             playerActed = true;
                         }
@@ -162,7 +165,7 @@ public class Main {
                 case 1 -> {
                     if (enemy.getSkillOneCooldown() == 0 && enemy.isSkillOneUsable()) {
                         player.setHitpoints(enemy.skillOne());
-                        enemy.reduceMana(enemy.getSKillOneManaUsage());
+                        enemy.reduceMana(enemy.getSkillOneManaUsage());
                         enemy.activateSkillOneCooldown();
                     }
                     else if (enemy.getSkillOneCooldown() > 0) {
@@ -177,7 +180,7 @@ public class Main {
                 case 2 -> {
                     if (enemy.getSkillTwoCooldown() == 0 && enemy.isSkillTwoUsable()) {
                         player.setHitpoints(enemy.skillTwo());
-                        enemy.reduceMana(enemy.getSKillTwoManaUsage());
+                        enemy.reduceMana(enemy.getSkillTwoManaUsage());
                         enemy.activateSkillTwoCooldown();
                     }
                     else if (enemy.getSkillTwoCooldown() > 0) {
@@ -192,7 +195,7 @@ public class Main {
                 case 3 -> {
                     if (enemy.getSkillThreeCooldown() == 0 && enemy.isSkillThreeUsable()) {
                         player.setHitpoints(enemy.skillThree());
-                        enemy.reduceMana(enemy.getSKillThreeManaUsage());
+                        enemy.reduceMana(enemy.getSkillThreeManaUsage());
                         enemy.activateSkillThreeCooldown();
                     }
                     else if (enemy.getSkillThreeCooldown() > 0) {
@@ -218,6 +221,7 @@ public class Main {
             enemy.reduceSkillOneCooldown();
             enemy.reduceSkillTwoCooldown();
             enemy.reduceSkillThreeCooldown();
+            round++;
 
             if(player.getHitpoints() <= 0 || enemy.getHitpoints() <= 0) {
                 isRunning = false;

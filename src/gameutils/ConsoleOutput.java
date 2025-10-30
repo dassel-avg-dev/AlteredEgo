@@ -93,6 +93,70 @@ public class ConsoleOutput {
         System.out.print("\t\tEnter (1, 2, 3, 4, or 5): ");
     }
 
+    public void showRoundHeader(int round) {
+        System.out.println();
+        System.out.println("==================== Match — Round " + round + " ====================");
+        System.out.println();
+    }
+
+    //show player and enemy cd
+    public void showBothCooldownsAndResources(Player player, Enemy enemy) {
+        final int smallDelay = 25;
+
+        //player
+        printWithDelay("[Player] " + player.getName() +"\n", smallDelay);
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t[0]Basic Attack", smallDelay);
+        printWithDelay("\t\tCD: READY | Mana: —", smallDelay);
+
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t"+"[1]" + player.getSkillOneName(), smallDelay);
+        printWithDelay("\t\tCD: " + (player.getSkillOneCooldown() == 0 ? "READY" : player.getSkillOneCooldown() + " Turns") + " | Mana: " + player.getSkillOneManaUsage(), smallDelay);
+
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t"+"[2]" + player.getSkillTwoName(), smallDelay);
+        printWithDelay("\t\tCD: " + (player.getSkillTwoCooldown() == 0 ? "READY" : player.getSkillTwoCooldown() + " Turns") + " | Mana: " + player.getSkillTwoManaUsage(), smallDelay);
+
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t"+"[3]" + player.getSkillThreeName(), smallDelay);
+        printWithDelay("\t\tCD: " + (player.getSkillThreeCooldown() == 0 ? "READY" : player.getSkillThreeCooldown() + " Turns") + " | Mana: " + player.getSkillThreeManaUsage(), smallDelay);
+        System.out.println("--------------------------------------");
+        System.out.println();
+        System.out.println();
+
+        //enemy
+        printWithDelay("[Enemy] " + enemy.getName() +"\n", smallDelay);
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t[0]Basic Attack", smallDelay);
+        printWithDelay("\t\tCD: READY | Mana: —", smallDelay);
+
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t"+"[1]" + enemy.getSkillOneName(), smallDelay);
+        printWithDelay("\t\tCD: " + (enemy.getSkillOneCooldown() == 0 ? "READY" : enemy.getSkillOneCooldown() + " Turns") + " | Mana: " + enemy.getSkillOneManaUsage(), smallDelay);
+
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t"+"[2]" + enemy.getSkillTwoName(), smallDelay);
+        printWithDelay("\t\tCD: " + (enemy.getSkillTwoCooldown() == 0 ? "READY" : enemy.getSkillTwoCooldown() + " Turns") + " | Mana: " + enemy.getSkillTwoManaUsage(), smallDelay);
+
+        System.out.println("--------------------------------------");
+        printWithDelay("\t\t"+"[3]" + enemy.getSkillThreeName(), smallDelay);
+        printWithDelay("\t\tCD: " + (enemy.getSkillThreeCooldown() == 0 ? "READY" : enemy.getSkillThreeCooldown() + " Turns") + " | Mana: " + enemy.getSkillThreeManaUsage(), smallDelay);
+        System.out.println("--------------------------------------");
+
+        System.out.println("========================================================");
+        System.out.println();
+    }
+
+    private String formatSkillLine(String skillLabel, String midLabel, int cdValue, String rightLabel) {
+        String cdString = (cdValue <= 0) ? "Ready" : cdValue + " turn(s)";
+        return String.format("\t%s %s: %s \t%s", skillLabel, midLabel, cdString, rightLabel);
+    }
+
+    public void showRoundStatus(int round, Player player, Enemy enemy) {
+        showRoundHeader(round);
+        showBothCooldownsAndResources(player, enemy);
+    }
+
     // wrap up function for player character choice integer input
     public int playerCharacterChoiceInputHandler() {
         int playerChoice = 0;
@@ -350,7 +414,6 @@ public class ConsoleOutput {
                     }
                 }
             }
-
             default -> printWithDelay("The atmosphere changed as they tense up......", 50);
         }
      }
