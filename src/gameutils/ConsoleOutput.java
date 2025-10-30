@@ -1,9 +1,15 @@
 package gameutils;
+import java.util.*;
 
 public class ConsoleOutput {
-    private static final int delayValue = 50;
+    static final int delayValue = 50;
+    static final int slowDelayPreset = 300;
+    static final int mediumDelayPreset = 150 ;
+    static final int fastDelayPreset = 40;
+    static Scanner scanner = new Scanner(System.in);
     public ConsoleOutput() { }
 
+    // prints every character with delay
     public static void printWithDelay(String text, int delay) {
         for (char ch : text.toCharArray()) {
             System.out.print(ch);
@@ -32,16 +38,26 @@ public class ConsoleOutput {
         System.out.print("\n\t\t\tPress 'P' to Play or 'X' to Exit: ");
     }
 
-    public void characterChoices() {
-        System.out.println();
-        System.out.println("----------------- Choose Your Character ----------------");
-        System.out.println("\t\t[1] Cosmic Dassel");
-        System.out.println("\t\t[2] Khylle The Reaper");
-        System.out.println("\t\t[3] Earl");
-        System.out.println("\t\t[4] The One John");
-        System.out.println("\t\t[5] And Rew");
-        System.out.println("\t\t[6] OP Character");
-        System.out.print("\t\tEnter choice (1, 2, 3, 4, 5 or 6): ");
+    public void printPlayOrExitMenu() {
+        while(true) {
+            try {
+                playOrExitMenu();
+                char playOrExit = scanner.next().toUpperCase().charAt(0);
+                if(playOrExit == 'X') {
+                    System.exit(1);
+                }
+                else if(playOrExit == 'P'){
+                    break;
+                }
+                else {
+                    throw new InputMismatchException();
+                }
+            }
+            catch(InputMismatchException error) {
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                scanner.nextLine();
+            }
+        }
     }
 
     public void playerSkillChoices(Player player) {
@@ -54,6 +70,18 @@ public class ConsoleOutput {
         System.out.print("\t\tEnter choice (0, 1, 2, or 3): ");
     }
 
+    public void characterChoices() {
+        System.out.println();
+        System.out.println("----------------- Choose Your Character ----------------");
+        System.out.println("\t\t[1] Cosmic Dassel");
+        System.out.println("\t\t[2] Khylle The Reaper");
+        System.out.println("\t\t[3] Earl");
+        System.out.println("\t\t[4] The One John");
+        System.out.println("\t\t[5] And Rew");
+        System.out.println("\t\t[6] OP Character");
+        System.out.print("\t\tEnter choice (1, 2, 3, 4, 5 or 6): ");
+    }
+
     public void enemyCharacterChoices() {
         System.out.println();
         System.out.println("------------------ Choose Your Enemy ------------------");
@@ -63,6 +91,97 @@ public class ConsoleOutput {
         System.out.println("\t\t[4] JF Void");
         System.out.println("\t\t[5] Deidre");
         System.out.print("\t\tEnter (1, 2, 3, 4, or 5): ");
+    }
+
+    // wrap up function for player character choice integer input
+    public int playerCharacterChoiceInputHandler() {
+        int playerChoice = 0;
+        while(true) {
+            try {
+                characterChoices();
+                playerChoice = scanner.nextInt();
+                if(playerChoice < 1 || playerChoice > 6) {
+                    throw new InputMismatchException();
+                }
+                else {
+                    break;
+                }
+            }
+            catch(InputMismatchException error) {
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                scanner.nextLine();
+            }
+        }
+        return playerChoice;
+    }
+
+    // wrap up function for enemy character choice integer input
+    public int enemyCharacterChoiceInputHandler() {
+        int enemyChoice = 0;
+        while(true) {
+            try {
+                enemyCharacterChoices();
+                enemyChoice = scanner.nextInt();
+                break;
+            }
+            catch(InputMismatchException e) {
+                System.out.println("\n\t\t\tInvalid Input, Try Again!");
+                scanner.nextLine();
+            }
+        }
+        return enemyChoice;
+    }
+
+    // display monologue for player or skip the whole monologue
+    public void printOrSkipNarrativeSegment(Player player) {
+        // '0' is a placeholder to avoid null pointer exception
+        char skipSegmentChoice = '0';
+        do {
+            try {
+                System.out.print("\nSkip narrative segment (Y / N): ");
+                skipSegmentChoice = scanner.next().toUpperCase().charAt(0);
+                if (skipSegmentChoice == 'N') {
+                    specialEncounterMonologue(player);
+                    break;
+                }
+                else if (skipSegmentChoice != 'Y') {
+                    System.out.println("\n\t\t\tInvalid Input. Try again!");
+                }
+                else {
+                    break;
+                }
+            }
+            catch (InputMismatchException error) {
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                scanner.nextLine();
+            }
+        } while (skipSegmentChoice != 'Y');
+    }
+
+    // display monologue for enemy or skip the whole monologue
+    public void printOrSkipNarrativeSegment(Enemy enemy) {
+        // '0' is a placeholder to avoid null pointer exception
+        char skipSegmentChoice = '0';
+        do {
+            try {
+                System.out.print("\nSkip narrative segment (Y / N): ");
+                skipSegmentChoice = scanner.next().toUpperCase().charAt(0);
+                if (skipSegmentChoice == 'N') {
+                    specialEncounterMonologue(enemy);
+                    break;
+                }
+                else if (skipSegmentChoice != 'Y') {
+                    System.out.println("\n\t\t\tInvalid Input. Try again!");
+                }
+                else {
+                    break;
+                }
+            }
+            catch (InputMismatchException error) {
+                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                scanner.nextLine();
+            }
+        } while (skipSegmentChoice != 'Y');
     }
 
     public void enemyRandomSkillChoice(Enemy enemy) {
@@ -100,7 +219,6 @@ public class ConsoleOutput {
 
             case "Deidre" -> printWithDelay("Deidre: I am the storm that is approaching", 50);
 
-
         }
     }
 
@@ -115,7 +233,7 @@ public class ConsoleOutput {
                         printWithDelay("Kaniel Outis: You dare put a price on me? I'll make you regret it", 50);
                     }
                     case "Van Berskville" -> {
-                        printWithDelay("Cosmic Dassel: I like you — I'll buy you", 50);
+                        printWithDelay("Cosmic Dassel: I could use a mercenary — I'll buy you", 50);
                         printWithDelay("Van Berskville: I'll accept your limbs as down payment", 50);
                     }
                     case "Asta Clover" -> {
@@ -242,8 +360,8 @@ public class ConsoleOutput {
         switch (player.getName()) {
             case "Cosmic Dassel" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("Cosmic Dassel: Here's the pain of being poor punch!", 50);
-                    case 1 -> printWithDelay("Cosmic Dassel: Take this Provoked punch.... HA HA", 50);
+                    case 0 -> printWithDelay("Cosmic Dassel: I'm gonna put some bug in your eye.", 50);
+                    case 1 -> printWithDelay("Cosmic Dassel: Look at little binary junior, gonna cry?", 50);
                     case 2 -> printWithDelay("Cosmic Dassel: Systems fail, error emerge, let thy bugs control, Bug Overflow", 50);
                     case 3 -> printWithDelay("Cosmic Dassel: Spend, Invest, Dominate, Overclock amplify my being", 50);
                 }
@@ -315,7 +433,7 @@ public class ConsoleOutput {
             }
             case "JF Void" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("JF Void: Basic Attack", 50);
+                    case 0 -> printWithDelay("JF Void: Hungry?, Eat My Knuckle Sandwich", 50);
                     case 1 -> printWithDelay("JF Void: Return to nothing", 50);
                     case 2 -> printWithDelay("JF Void: I bend reality for fun, Void deflect", 50);
                     case 3 -> printWithDelay("JF Void: One move, one death", 50);
@@ -332,18 +450,17 @@ public class ConsoleOutput {
         }
     }
 
-    public void pvpBattleGameMode(Player player, Enemy enemy) {
-
-    }
-
-    public void playerVsComputerGameMode(Player player, Enemy enemy) {
-
-    }
-
-    public void arcadeBatlleGameMode(Player player, Enemy enemy) {
-
-    }
-
+//    public void pvpBattleGameMode(Player player, Enemy enemy) {
+//
+//    }
+//
+//    public void playerVsComputerBattleGameMode(Player player, Enemy enemy) {
+//
+//    }
+//
+//    public void arcadeBatlleGameMode(Player player, Enemy enemy) {
+//
+//    }
 
 
 }

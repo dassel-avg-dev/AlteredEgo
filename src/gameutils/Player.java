@@ -2,7 +2,7 @@ package gameutils;
 import java.util.*;
 
 public class Player extends GameCharacter implements Skills {
-    public static int delayValue = 50;
+    static int delayValue = 50;
     public Random random = new Random();
     public ConsoleOutput CO = new ConsoleOutput();
     private String skillOneName;
