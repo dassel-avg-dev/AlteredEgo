@@ -2,7 +2,9 @@ package gameutils;
 import java.util.*;
 
 public class Player extends GameCharacter implements Skills {
-    static int delayValue = 50;
+    static final int fastDelayPreset = 40;
+    static final int mediumDelayPreset = 80;
+    static final int slowDelayPreset = 120;
     public Random random = new Random();
     public ConsoleOutput CO = new ConsoleOutput();
     private String skillOneName;
@@ -122,28 +124,28 @@ public class Player extends GameCharacter implements Skills {
     @Override
     public int basicAttack() {
         int damage = random.nextInt(20, 31);
-        CO.printWithDelay("\n"+getName()+ " used Basic Attack: " +damage+ " worth of damage!", delayValue);
+        CO.printWithDelay("\n"+getName()+ " used Basic Attack: " +damage+ " worth of damage!", fastDelayPreset);
         return damage;
     }
 
     @Override
     public int skillOne() {
         int damage = random.nextInt(30, 41);
-        CO.printWithDelay("\n"+getName()+ " used Skill One: " +getSkillOneName()+ ", worth " +damage+ " of damage!", delayValue);
+        CO.printWithDelay("\n"+getName()+ " used Skill One: " +getSkillOneName()+ ", worth " +damage+ " of damage!", fastDelayPreset);
         return damage;
     }
 
     @Override
     public int skillTwo() {
         int damage = random.nextInt(40, 51);
-        CO.printWithDelay("\n"+getName()+ " used Skill Two: " +getSkillTwoName()+ ", worth " +damage+ " of damage!", delayValue);
+        CO.printWithDelay("\n"+getName()+ " used Skill Two: " +getSkillTwoName()+ ", worth " +damage+ " of damage!", fastDelayPreset);
         return damage;
     }
 
     @Override
     public int skillThree() {
         int damage = random.nextInt(100, 151);
-        CO.printWithDelay("\n"+getName()+ " used Skill Three: " +getSkillThreeName()+ ", worth " +damage+ " of damage!", delayValue);
+        CO.printWithDelay("\n"+getName()+ " used Skill Three: " +getSkillThreeName()+ ", worth " +damage+ " of damage!", fastDelayPreset);
         return damage;
     }
 
