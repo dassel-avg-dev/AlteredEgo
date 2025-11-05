@@ -16,6 +16,9 @@ public class Player extends GameCharacter implements Skills {
     private int skillOneManaUsage;
     private int skillTwoManaUsage;
     private int skillThreeManaUsage;
+    private int resetSkillOneCooldown;
+    private int resetSkillTwoCooldown;
+    private int resetSkillThreeCooldown;
 
     public Player() {
         super("Unknown");
@@ -28,6 +31,9 @@ public class Player extends GameCharacter implements Skills {
         this.skillOneManaUsage = 25;
         this.skillTwoManaUsage = 50;
         this.skillThreeManaUsage = 100;
+        this.resetSkillOneCooldown = this.skillOneCooldown;
+        this.resetSkillTwoCooldown = this.skillTwoCooldown;
+        this.resetSkillThreeCooldown = this.skillThreeCooldown;
     }
 
     public Player(String characterName) {
@@ -41,6 +47,9 @@ public class Player extends GameCharacter implements Skills {
         this.skillOneManaUsage = 25;
         this.skillTwoManaUsage = 50;
         this.skillThreeManaUsage = 100;
+        this.resetSkillOneCooldown = this.skillOneCooldown;
+        this.resetSkillTwoCooldown = this.skillTwoCooldown;
+        this.resetSkillThreeCooldown = this.skillThreeCooldown;
     }
 
     public Player(String characterName, String skillOneName, String skillTwoName, String skillThreeName) {
@@ -54,10 +63,14 @@ public class Player extends GameCharacter implements Skills {
         this.skillOneManaUsage = 25;
         this.skillTwoManaUsage = 50;
         this.skillThreeManaUsage = 100;
+        this.resetSkillOneCooldown = this.skillOneCooldown;
+        this.resetSkillTwoCooldown = this.skillTwoCooldown;
+        this.resetSkillThreeCooldown = this.skillThreeCooldown;
     }
 
     public void setSkillOneName(String skillOneName) {
-        this.skillOneName = skillOneName; }
+        this.skillOneName = skillOneName;
+    }
 
     public void setSkillTwoName(String skillTwoName) {
         this.skillTwoName = skillTwoName;
@@ -181,6 +194,12 @@ public class Player extends GameCharacter implements Skills {
 
     public boolean isSkillThreeUsable() {
         return (getMana() >= this.skillThreeManaUsage) ? true : false;
+    }
+
+    public void resetCoolDown() {
+        this.skillOneCooldown = resetSkillOneCooldown;
+        this.skillTwoCooldown = resetSkillTwoCooldown;
+        this.skillThreeCooldown = resetSkillThreeCooldown;
     }
 
 }

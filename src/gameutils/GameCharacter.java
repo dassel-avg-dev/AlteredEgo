@@ -4,22 +4,33 @@ public abstract class GameCharacter {
     private String name;
     private int hitpoints;
     private int mana;
+    private int resetHitpoints;
+    private int resetMana;
 
     // if no value passed in the constructor
     public GameCharacter() {
         this.name = "Unknown";
         this.hitpoints = 500;
         this.mana = 200;
+        this.resetHitpoints = this.hitpoints;
+        this.resetMana = this.mana;
     }
 
     public GameCharacter(String name) {
         this.name = name;
         this.hitpoints = 500;
         this.mana = 200;
+        this.resetHitpoints = this.hitpoints;
+        this.resetMana = this.mana;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void resetStats() {
+        this.hitpoints = resetHitpoints;
+        this.mana = resetMana;
     }
 
     public int getHitpoints() {
