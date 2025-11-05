@@ -89,9 +89,9 @@ public class ConsoleOutput {
 
 
     public void playerSkillChoices(Player player) {
-        String skillOneDamage = (player.getName().equals("OP Chracter")) ? " (Min: 50 | Max: 50)" : " (Min: 30 | Max: 40)";
-        String skillTwoDamage = (player.getName().equals("OP Chracter")) ? " (Min: 100 | Max: 100)" : " (Min: 40 | Max: 50)";
-        String skillThreeDamage = (player.getName().equals("OP Chracter")) ? " (Min: 150 | Max: 150)" : " (Min: 100 | Max: 150)";
+        String skillOneDamage = (player.getName().equals("OP Character")) ? " (Min: 50 | Max: 50)" : " (Min: 30 | Max: 40)";
+        String skillTwoDamage = (player.getName().equals("OP Character")) ? " (Min: 100 | Max: 100)" : " (Min: 40 | Max: 50)";
+        String skillThreeDamage = (player.getName().equals("OP Character")) ? " (Min: 150 | Max: 150)" : " (Min: 100 | Max: 150)";
         System.out.println();
         System.out.println("----------------- CHOOSE SKILL TO USE ------------------");
         System.out.println("\t\t[0] Basic Attack (Min: 20 | Max: 30)");
