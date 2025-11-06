@@ -6,6 +6,7 @@ public class ConsoleOutput {
     static final int slowDelayPreset = 120;
     static final int mediumDelayPreset = 80;
     static final int fastDelayPreset = 40;
+    static final int len = 60;
     static Scanner scanner = new Scanner(System.in);
     static Random random = new Random();
 
@@ -25,15 +26,83 @@ public class ConsoleOutput {
         System.out.println();
     }
 
+    public static void printCenter(String text, int length) {
+        if (text == null) text = "";
+        if (length <= text.length()) {
+            System.out.println(text.substring(0, Math.min(text.length(), length)));
+            return;
+        }
+
+        int totalPadding = length - text.length();
+        int leftPadding = totalPadding / 2;
+        int rightPadding = totalPadding - leftPadding; // ensures total = length
+
+        String line = " ".repeat(leftPadding) + text + " ".repeat(rightPadding);
+        System.out.println(line);
+    }
+
+    public static void printCenter(String text, int length, char fillChar) {
+        if (text == null) text = "";
+        if (length <= text.length()) {
+            System.out.println(text.substring(0, Math.min(text.length(), length)));
+            return;
+        }
+
+        int totalPadding = length - text.length();
+        int leftPadding = totalPadding / 2;
+        int rightPadding = totalPadding - leftPadding; // ensures exact total length
+
+        String line = String.valueOf(fillChar).repeat(leftPadding)
+                + text
+                + String.valueOf(fillChar).repeat(rightPadding);
+
+        System.out.println(line);
+    }
+
+    public static void printCenter(String text, int length, char fillChar, int delay) {
+        if (text == null) text = "";
+
+        // If text is longer than desired width, trim it
+        if (length <= text.length()) {
+            text = text.substring(0, Math.min(text.length(), length));
+        } else {
+            int totalPadding = length - text.length();
+            int leftPadding = totalPadding / 2;
+            int rightPadding = totalPadding - leftPadding;
+
+            text = String.valueOf(fillChar).repeat(leftPadding)
+                    + text
+                    + String.valueOf(fillChar).repeat(rightPadding);
+        }
+
+        // Ensure text has exact total length
+        if (text.length() < length) {
+            text += String.valueOf(fillChar).repeat(length - text.length());
+        } else if (text.length() > length) {
+            text = text.substring(0, length);
+        }
+
+        // Print one character at a time with delay
+        for (char ch : text.toCharArray()) {
+            System.out.print(ch);
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println(); // move to next line
+    }
+
     public void gameTitle() {
-        printWithDelay("---------------- WELCOME TO ALTERED EGO ----------------", fastDelayPreset);
-        printWithDelay("--------- Fight Your Other Side or Suffer Forever ------", fastDelayPreset);
+        printCenter(" WELCOME TO ALTERED EGO ", len, '-', fastDelayPreset);
+        printCenter(" FIGHT YOUR SIDE OR SUFFER FOREVER ", len, '-', fastDelayPreset);
     }
 
     public void loadingScreen() {
         printWithDelay("\n\t\t\t\t\tLOADING GAME CONTENT......", fastDelayPreset);
         System.out.println("1%                                                        100%");
-        printWithDelay("[ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ]", 70);
+        printWithDelay("[ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ]", fastDelayPreset);
     }
 
     public void playOrExitMenu() {
@@ -89,12 +158,13 @@ public class ConsoleOutput {
 
 
     public void playerSkillChoices(Player player) {
-        String skillOneDamage = (player.getName().equals("OP Character")) ? " (Min: 50 | Max: 50)" : " (Min: 30 | Max: 40)";
-        String skillTwoDamage = (player.getName().equals("OP Character")) ? " (Min: 100 | Max: 100)" : " (Min: 40 | Max: 50)";
-        String skillThreeDamage = (player.getName().equals("OP Character")) ? " (Min: 150 | Max: 150)" : " (Min: 100 | Max: 150)";
+        String basicAttackDamage = (player.getName().equals("OP Character")) ? " (Min: 50 | Max: 50)" : " (Min: 20 | Max: 30)";
+        String skillOneDamage = (player.getName().equals("OP Character")) ? " (Min: 100 | Max: 100)" : " (Min: 30 | Max: 40)";
+        String skillTwoDamage = (player.getName().equals("OP Character")) ? " (Min: 150 | Max: 150)" : " (Min: 40 | Max: 50)";
+        String skillThreeDamage = (player.getName().equals("OP Character")) ? " (Min: 200 | Max: 200)" : " (Min: 100 | Max: 150)";
         System.out.println();
         System.out.println("----------------- CHOOSE SKILL TO USE ------------------");
-        System.out.println("\t\t[0] Basic Attack (Min: 20 | Max: 30)");
+        System.out.println("\t\t[0] Basic Attack " + basicAttackDamage);
         System.out.println("\t\t[1] Skill One: " + player.getSkillOneName() + " " + skillOneDamage);
         System.out.println("\t\t[2] SKill Two: " + player.getSkillTwoName() + " " + skillTwoDamage);
         System.out.println("\t\t[3] Skill Three: " + player.getSkillThreeName() + " " + skillThreeDamage);
@@ -146,7 +216,7 @@ public class ConsoleOutput {
         if (isPVP) {
             System.out.println("------------------ CHOOSE YOUR CHAMPION ------------------");
         } else {
-            System.out.println("------------------ CHOOSE YOUR ENEMY ------------------");
+            System.out.println("------------------ CHOOSE YOUR ENEMY ---------------------");
         }
         System.out.println("\t\t\t[1] Kaniel Outis");
         System.out.println("\t\t\t[2] Van Berksville");
@@ -164,49 +234,48 @@ public class ConsoleOutput {
 
     //show player and enemy cd
     public void showBothCooldownsAndResources(Player player, Enemy enemy) {
-        final int smallDelay = 25;
-
+        final int smallDelay = 25;                                            //|
+        String line = "----------------------------------------------------------";
         //player
         printWithDelay("[Player] " + player.getName() + "\n", smallDelay);
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t[0] Basic Attack", smallDelay);
-        printWithDelay("\t\tCD: READY | Mana: —", smallDelay);
+        System.out.println(line);
+        printWithDelay("\t\t\t\t[0] Basic Attack", smallDelay);
+        printWithDelay("\t\t\t\tCD: READY | Mana: —", smallDelay);
 
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t" + "[1] " + player.getSkillOneName(), smallDelay);
-        printWithDelay("\t\tCD: " + (player.getSkillOneCooldown() == 0 ? "READY" : player.getSkillOneCooldown() + " Turns") + " | Mana: " + player.getSkillOneManaUsage(), smallDelay);
+        System.out.println(line);
+        printWithDelay("\t\t\t\t" + "[1] " + player.getSkillOneName(), smallDelay);
+        printWithDelay("\t\t\t\tCD: " + (player.getSkillOneCooldown() == 0 ? "READY" : player.getSkillOneCooldown() + " Turns") + " | Mana: " + player.getSkillOneManaUsage(), smallDelay);
 
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t" + "[2] " + player.getSkillTwoName(), smallDelay);
-        printWithDelay("\t\tCD: " + (player.getSkillTwoCooldown() == 0 ? "READY" : player.getSkillTwoCooldown() + " Turns") + " | Mana: " + player.getSkillTwoManaUsage(), smallDelay);
+        System.out.println(line);
+        printWithDelay("\t\t\t\t" + "[2] " + player.getSkillTwoName(), smallDelay);
+        printWithDelay("\t\t\t\tCD: " + (player.getSkillTwoCooldown() == 0 ? "READY" : player.getSkillTwoCooldown() + " Turns") + " | Mana: " + player.getSkillTwoManaUsage(), smallDelay);
 
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t" + "[3] " + player.getSkillThreeName(), smallDelay);
-        printWithDelay("\t\tCD: " + (player.getSkillThreeCooldown() == 0 ? "READY" : player.getSkillThreeCooldown() + " Turns") + " | Mana: " + player.getSkillThreeManaUsage(), smallDelay);
-        System.out.println("--------------------------------------");
+        System.out.println(line);
+        printWithDelay("\t\t\t\t" + "[3] " + player.getSkillThreeName(), smallDelay);
+        printWithDelay("\t\t\t\tCD: " + (player.getSkillThreeCooldown() == 0 ? "READY" : player.getSkillThreeCooldown() + " Turns") + " | Mana: " + player.getSkillThreeManaUsage(), smallDelay);
+        System.out.println(line);
         System.out.println();
         System.out.println();
 
         //enemy
         printWithDelay("[Enemy] " + enemy.getName() + "\n", smallDelay);
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t[0] Basic Attack", smallDelay);
-        printWithDelay("\t\tCD: READY | Mana: —", smallDelay);
+        System.out.println(line);
+        printWithDelay("\t\t\t\t[0] Basic Attack", smallDelay);
+        printWithDelay("\t\t\t\tCD: READY | Mana: —", smallDelay);
 
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t" + "[1] " + enemy.getSkillOneName(), smallDelay);
-        printWithDelay("\t\tCD: " + (enemy.getSkillOneCooldown() == 0 ? "READY" : enemy.getSkillOneCooldown() + " Turns") + " | Mana: " + enemy.getSkillOneManaUsage(), smallDelay);
+        System.out.println(line);
+        printWithDelay("\t\t\t\t" + "[1] " + enemy.getSkillOneName(), smallDelay);
+        printWithDelay("\t\t\t\tCD: " + (enemy.getSkillOneCooldown() == 0 ? "READY" : enemy.getSkillOneCooldown() + " Turns") + " | Mana: " + enemy.getSkillOneManaUsage(), smallDelay);
 
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t" + "[2] " + enemy.getSkillTwoName(), smallDelay);
-        printWithDelay("\t\tCD: " + (enemy.getSkillTwoCooldown() == 0 ? "READY" : enemy.getSkillTwoCooldown() + " Turns") + " | Mana: " + enemy.getSkillTwoManaUsage(), smallDelay);
+        System.out.println(line);
+        printWithDelay("\t\t\t\t" + "[2] " + enemy.getSkillTwoName(), smallDelay);
+        printWithDelay("\t\t\t\tCD: " + (enemy.getSkillTwoCooldown() == 0 ? "READY" : enemy.getSkillTwoCooldown() + " Turns") + " | Mana: " + enemy.getSkillTwoManaUsage(), smallDelay);
 
-        System.out.println("--------------------------------------");
-        printWithDelay("\t\t" + "[3] " + enemy.getSkillThreeName(), smallDelay);
-        printWithDelay("\t\tCD: " + (enemy.getSkillThreeCooldown() == 0 ? "READY" : enemy.getSkillThreeCooldown() + " Turns") + " | Mana: " + enemy.getSkillThreeManaUsage(), smallDelay);
-        System.out.println("--------------------------------------\n");
-        System.out.println("========================================================");
-        System.out.println();
+        System.out.println(line);
+        printWithDelay("\t\t\t\t" + "[3] " + enemy.getSkillThreeName(), smallDelay);
+        printWithDelay("\t\t\t\tCD: " + (enemy.getSkillThreeCooldown() == 0 ? "READY" : enemy.getSkillThreeCooldown() + " Turns") + " | Mana: " + enemy.getSkillThreeManaUsage(), smallDelay);
+        System.out.println(line);
+        System.out.println("==========================================================\n");
     }
 
     private String formatSkillLine(String skillLabel, String midLabel, int cdValue, String rightLabel) {
@@ -537,52 +606,53 @@ public class ConsoleOutput {
         switch (player.getName()) {
             case "Cosmic Dassel" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("Cosmic Dassel: I'm gonna put some bug in your eye.", fastDelayPreset);
+                    case 0 -> printWithDelay("\nCosmic Dassel: I'm gonna put some bug in your eye.", fastDelayPreset);
                     case 1 ->
-                            printWithDelay("Cosmic Dassel: Look at little binary junior, gonna cry?", fastDelayPreset);
+                            printWithDelay("\nCosmic Dassel: Look at little binary junior, gonna cry?", fastDelayPreset);
                     case 2 ->
-                            printWithDelay("Cosmic Dassel: Systems fail, error emerge, let thy bugs control, Bug Overflow", fastDelayPreset);
+                            printWithDelay("\nCosmic Dassel: Systems fail, error emerge, let thy bugs control, Bug Overflow", fastDelayPreset);
                     case 3 ->
-                            printWithDelay("Cosmic Dassel: Spend, Invest, Dominate, Overclock amplify my being", fastDelayPreset);
+                            printWithDelay("\nCosmic Dassel: Spend, Invest, Dominate, Overclock amplify my being", fastDelayPreset);
                 }
             }
 
             case "Khylle The Reaper" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("Khylle The Reaper: Basic attack to test you", fastDelayPreset);
-                    case 1 -> printWithDelay("Khylle The Reaper: Karate Kick to your soul", fastDelayPreset);
+                    case 0 -> printWithDelay("\nKhylle The Reaper: Basic attack to test you", fastDelayPreset);
+                    case 1 -> printWithDelay("\nKhylle The Reaper: Karate Kick to your soul", fastDelayPreset);
                     case 2 ->
-                            printWithDelay("Khylle The Reaper: Grave of gluttony let them cower thy souls, Flying food", fastDelayPreset);
+                            printWithDelay("\nKhylle The Reaper: Grave of gluttony let them cower thy souls, Flying food", fastDelayPreset);
                     case 3 ->
-                            printWithDelay("Khylle The Reaper: Hear, your Eulogy, Voice of Destruction", fastDelayPreset);
+                            printWithDelay("\nKhylle The Reaper: Hear, your Eulogy, Voice of Destruction", fastDelayPreset);
                 }
             }
 
             case "Earl" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("Earl: Haiyah!", fastDelayPreset);
-                    case 1 -> printWithDelay("Earl: One order of Knee Strike coming right up", fastDelayPreset);
-                    case 2 -> printWithDelay("Earl: On the double, double kick", fastDelayPreset);
-                    case 3 -> printWithDelay("Earl: (Dodge).... Too slow", fastDelayPreset);
+                    case 0 -> printWithDelay("\nEarl: Haiyah!", fastDelayPreset);
+                    case 1 -> printWithDelay("\nEarl: One order of Knee Strike coming right up", fastDelayPreset);
+                    case 2 -> printWithDelay("\nEarl: On the double, double kick", fastDelayPreset);
+                    case 3 -> printWithDelay("\nEarl: (Dodge).... Too slow", fastDelayPreset);
                 }
             }
 
             case "The One John" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("The One John: Normal Punch!", fastDelayPreset);
-                    case 1 -> printWithDelay("The One John: Your open!, Uppercut", fastDelayPreset);
-                    case 2 -> printWithDelay("The One John: You'll hurt yourself, Counterpalm", fastDelayPreset);
-                    case 3 -> printWithDelay("The One John: Ora ora ora ora ora ora ora ora!", fastDelayPreset);
+                    case 0 -> printWithDelay("\nThe One John: Normal Punch!", fastDelayPreset);
+                    case 1 -> printWithDelay("\nThe One John: Your open!, Uppercut", fastDelayPreset);
+                    case 2 -> printWithDelay("\nThe One John: You'll hurt yourself, Counterpalm", fastDelayPreset);
+                    case 3 -> printWithDelay("\nThe One John: Ora ora ora ora ora ora ora ora!", fastDelayPreset);
                 }
             }
 
             case "And Rew" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("And Rew: Baby dragon punch!", fastDelayPreset);
-                    case 1 -> printWithDelay("And Rew: Take this, Dragon Punch", fastDelayPreset);
-                    case 2 -> printWithDelay("And Rew: Let thy dragons find the mark, Dragon Missle", fastDelayPreset);
+                    case 0 -> printWithDelay("\nAnd Rew: Baby dragon punch!", fastDelayPreset);
+                    case 1 -> printWithDelay("\nAnd Rew: Take this, Dragon Punch", fastDelayPreset);
+                    case 2 ->
+                            printWithDelay("\nAnd Rew: Let thy dragons find the mark, Dragon Missle", fastDelayPreset);
                     case 3 ->
-                            printWithDelay("And Rew: All thy existence bow thy verdict; I call, I decided, I rule... Dragon's Verdict of Demise! ", fastDelayPreset);
+                            printWithDelay("\nAnd Rew: All thy existence bow thy verdict; I call, I decided, I rule... Dragon's Verdict of Demise! ", fastDelayPreset);
                 }
             }
         }
@@ -592,48 +662,48 @@ public class ConsoleOutput {
         switch (enemy.getName()) {
             case "Kaniel Outis" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("Kaniel Outis: Take this basic attack!", fastDelayPreset);
+                    case 0 -> printWithDelay("\nKaniel Outis: Take this basic attack!", fastDelayPreset);
                     case 1 ->
-                            printWithDelay("Kaniel Outis: Burn everything, let this burn into you, Image Burn", fastDelayPreset);
-                    case 2 -> printWithDelay("Kaniel Outis: Squeeze thy soul till nothing", fastDelayPreset);
+                            printWithDelay("\nKaniel Outis: Burn everything, let this burn into you, Image Burn", fastDelayPreset);
+                    case 2 -> printWithDelay("\nKaniel Outis: Squeeze thy soul till nothing", fastDelayPreset);
                     case 3 ->
-                            printWithDelay("Kaniel Outis: All vision, All minds... Succumb to despair", fastDelayPreset);
+                            printWithDelay("\nKaniel Outis: All vision, All minds... Succumb to despair", fastDelayPreset);
                 }
             }
             case "Van Berskville" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("Van Berskville: Tch!", fastDelayPreset);
-                    case 1 -> printWithDelay("Van Berskville: Straight to heart", fastDelayPreset);
-                    case 2 -> printWithDelay("Van Berskville: Getsuga Tenshoo!", fastDelayPreset);
-                    case 3 -> printWithDelay("Van Berskville: Hidden Move, Fang Sword Style", fastDelayPreset);
+                    case 0 -> printWithDelay("\nVan Berskville: Tch!", fastDelayPreset);
+                    case 1 -> printWithDelay("\nVan Berskville: Straight to heart", fastDelayPreset);
+                    case 2 -> printWithDelay("\nVan Berskville: Getsuga Tenshoo!", fastDelayPreset);
+                    case 3 -> printWithDelay("\nVan Berskville: Hidden Move, Fang Sword Style", fastDelayPreset);
                 }
             }
             case "Asta Clover" -> {
                 switch (skillChoice) {
                     case 0 ->
-                            printWithDelay("Asta Clover: Not giving up is my magic!, Take this!....'HEADBUTTS'", fastDelayPreset);
+                            printWithDelay("\nAsta Clover: Not giving up is my magic!, Take this!....'HEADBUTTS'", fastDelayPreset);
                     case 1 ->
-                            printWithDelay("Asta Clover: Not yet, not yet! I SAID NOT YET! SLASH... SLASH...", fastDelayPreset);
+                            printWithDelay("\nAsta Clover: Not yet, not yet! I SAID NOT YET! SLASH... SLASH...", fastDelayPreset);
                     case 2 ->
-                            printWithDelay("Asta Clover: If my previous attack had no effect, then eat this. SLASH SLASH", fastDelayPreset);
+                            printWithDelay("\nAsta Clover: If my previous attack had no effect, then eat this. SLASH SLASH", fastDelayPreset);
                     case 3 ->
-                            printWithDelay("Asta Clover: Lets Go, Liebe. You and Me against the world...", fastDelayPreset);
+                            printWithDelay("\nAsta Clover: Lets Go, Liebe. You and Me against the world...", fastDelayPreset);
                 }
             }
             case "JF Void" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("JF Void: Hungry?, Eat My Knuckle Sandwich", fastDelayPreset);
-                    case 1 -> printWithDelay("JF Void: Return to nothing", fastDelayPreset);
-                    case 2 -> printWithDelay("JF Void: I bend reality for fun, Void deflect", fastDelayPreset);
-                    case 3 -> printWithDelay("JF Void: One move, one death", fastDelayPreset);
+                    case 0 -> printWithDelay("\nJF Void: Hungry?, Eat My Knuckle Sandwich", fastDelayPreset);
+                    case 1 -> printWithDelay("\nJF Void: Return to nothing", fastDelayPreset);
+                    case 2 -> printWithDelay("\nJF Void: I bend reality for fun, Void deflect", fastDelayPreset);
+                    case 3 -> printWithDelay("\nJF Void: One move, one death", fastDelayPreset);
                 }
             }
             case "Deidre" -> {
                 switch (skillChoice) {
-                    case 0 -> printWithDelay("Deidre: Slash!", fastDelayPreset);
-                    case 1 -> printWithDelay("Deidre: 1 sword style iai, Lightning cut", fastDelayPreset);
-                    case 2 -> printWithDelay("Deidre: 2 handed 1 Sword Style, Thunder Cleave", fastDelayPreset);
-                    case 3 -> printWithDelay("Deidre: With this I'll finish everything, Final Turn", fastDelayPreset);
+                    case 0 -> printWithDelay("\nDeidre: Slash!", fastDelayPreset);
+                    case 1 -> printWithDelay("\nDeidre: 1 sword style iai, Lightning cut", fastDelayPreset);
+                    case 2 -> printWithDelay("\nDeidre: 2 handed 1 Sword Style, Thunder Cleave", fastDelayPreset);
+                    case 3 -> printWithDelay("\nDeidre: With this I'll finish everything, Final Turn", fastDelayPreset);
                 }
             }
         }
@@ -652,8 +722,13 @@ public class ConsoleOutput {
     public void pvpBattleGameMode() {
         Player player = new Player();
         Enemy enemy = new Enemy();
-        boolean isPVP = true;
 
+        boolean isPVP = true;
+        int len = 58;
+
+        System.out.println();
+        printCenter(" [MODE] PLAYER VS PLAYER ", len, '-', mediumDelayPreset);
+        printCenter(" [SYSTEM] TWO PEOPLE ENTERS, ONE GOES OUT ", len, '-', mediumDelayPreset);
 
         int playerChoice = playerCharacterChoiceInputHandler(isPVP);
         switch (playerChoice) {
@@ -944,7 +1019,11 @@ public class ConsoleOutput {
         Player player = new Player();
         Enemy enemy = new Enemy();
 
+        System.out.println();
+        printCenter(" [MODE] PLAYER VS COMPUTER ", len, '-', mediumDelayPreset);
+        printCenter(" [SYSTEM] YOU WILL ENCOUNTER AN UNPREDICTABLE OPONENT ", len, '-', mediumDelayPreset);
         int playerChoice = playerCharacterChoiceInputHandler();
+
         switch (playerChoice) {
             case 1 -> player = new Player("Cosmic Dassel", "Provoked Punch", "Bug Overflow", "Overclock");
             case 2 -> player = new Player("Khylle The Reaper", "Karate Kick", "Flying Food", "Voice of Destruction");
@@ -969,7 +1048,10 @@ public class ConsoleOutput {
         }
 
         printOrSkipNarrativeSegment(enemy);
-        specialEncounterCounterPart(player, enemy);
+
+        if(playerChoice == enemyChoice) {
+            specialEncounterCounterPart(player, enemy);
+        }
 
         int round = 1;
         boolean isRunning = true;
@@ -1067,7 +1149,7 @@ public class ConsoleOutput {
             printWithDelay("\n" + player.getName() + " regenerates " + newPlayerMana + " mana. (Mana: " + player.getMana() + ")", fastDelayPreset);
 
             System.out.println();
-            System.out.println("------------------ Current Status ------------------");
+            System.out.println("------------------ CURRENT STATUS ------------------");
             printWithDelay("\n[" + enemy.getName() + "] Health: " + enemy.getHitpoints(), fastDelayPreset);
             printWithDelay("\n[" + enemy.getName() + "] Mana: " + enemy.getMana(), fastDelayPreset);
 

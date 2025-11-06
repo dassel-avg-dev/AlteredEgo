@@ -12,16 +12,16 @@ public abstract class GameCharacter {
         this.name = "Unknown";
         this.hitpoints = 500;
         this.mana = 200;
-        this.resetHitpoints = this.hitpoints;
-        this.resetMana = this.mana;
+//        this.resetHitpoints = this.hitpoints;
+//        this.resetMana = this.mana;
     }
 
     public GameCharacter(String name) {
         this.name = name;
         this.hitpoints = 500;
         this.mana = 200;
-        this.resetHitpoints = this.hitpoints;
-        this.resetMana = this.mana;
+//        this.resetHitpoints = this.hitpoints;
+//        this.resetMana = this.mana;
     }
 
     public String getName() {
@@ -29,8 +29,8 @@ public abstract class GameCharacter {
     }
 
     public void resetStats() {
-        this.hitpoints = resetHitpoints;
-        this.mana = resetMana;
+        this.hitpoints = 500;
+        this.mana = 200;
     }
 
     public int getHitpoints() {

@@ -7,9 +7,6 @@ import java.util.*;
 public class Main {
     static Scanner scanner = new Scanner(System.in);
     static Random random = new Random();
-    static int slowDelayPreset = 120;
-    static int mediumDelayPreset = 80;
-    static int fastDelayPreset = 40;
 
     public static void main(String[] args) {
         ConsoleOutput CO = new ConsoleOutput();
