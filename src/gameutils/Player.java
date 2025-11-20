@@ -19,6 +19,7 @@ public class Player extends GameCharacter implements Skills {
     private int resetSkillOneCooldown;
     private int resetSkillTwoCooldown;
     private int resetSkillThreeCooldown;
+    private boolean defeated;
 
     public Player() {
         super("Unknown");
@@ -34,6 +35,7 @@ public class Player extends GameCharacter implements Skills {
         this.resetSkillOneCooldown = this.skillOneCooldown;
         this.resetSkillTwoCooldown = this.skillTwoCooldown;
         this.resetSkillThreeCooldown = this.skillThreeCooldown;
+        this.defeated = false;
     }
 
     public Player(String characterName) {
@@ -50,6 +52,7 @@ public class Player extends GameCharacter implements Skills {
         this.resetSkillOneCooldown = this.skillOneCooldown;
         this.resetSkillTwoCooldown = this.skillTwoCooldown;
         this.resetSkillThreeCooldown = this.skillThreeCooldown;
+        this.defeated = false;
     }
 
     public Player(String characterName, String skillOneName, String skillTwoName, String skillThreeName) {
@@ -66,6 +69,7 @@ public class Player extends GameCharacter implements Skills {
         this.resetSkillOneCooldown = this.skillOneCooldown;
         this.resetSkillTwoCooldown = this.skillTwoCooldown;
         this.resetSkillThreeCooldown = this.skillThreeCooldown;
+        this.defeated = false;
     }
 
     public void setSkillOneName(String skillOneName) {
@@ -136,21 +140,21 @@ public class Player extends GameCharacter implements Skills {
 
     @Override
     public int basicAttack() {
-        int damage = random.nextInt(20, 31);
+        int damage = random.nextInt(40, 51);
         CO.printWithDelay("\n"+getName()+ " used Basic Attack: " +damage+ " worth of damage!", fastDelayPreset);
         return damage;
     }
 
     @Override
     public int skillOne() {
-        int damage = random.nextInt(30, 41);
+        int damage = random.nextInt(50, 61);
         CO.printWithDelay("\n"+getName()+ " used Skill One: " +getSkillOneName()+ ", worth " +damage+ " of damage!", fastDelayPreset);
         return damage;
     }
 
     @Override
     public int skillTwo() {
-        int damage = random.nextInt(40, 51);
+        int damage = random.nextInt(60, 71);
         CO.printWithDelay("\n"+getName()+ " used Skill Two: " +getSkillTwoName()+ ", worth " +damage+ " of damage!", fastDelayPreset);
         return damage;
     }
@@ -165,9 +169,11 @@ public class Player extends GameCharacter implements Skills {
     public void activateSkillOneCooldown() {
         this.skillOneCooldown = 2;
     }
+
     public void activateSkillTwoCooldown(){
         this.skillTwoCooldown = 3;
     }
+
     public void activateSkillThreeCooldown() {
         this.skillThreeCooldown = 5;
     }
@@ -185,21 +191,29 @@ public class Player extends GameCharacter implements Skills {
     }
 
     public boolean isSkillOneUsable() {
-        return (getMana() >= this.skillOneManaUsage) ? true : false;
+        return getMana() >= this.skillOneManaUsage;
     }
 
     public boolean isSkillTwoUsable() {
-        return (getMana() >= this.skillTwoManaUsage) ? true : false;
+        return getMana() >= this.skillTwoManaUsage;
     }
 
     public boolean isSkillThreeUsable() {
-        return (getMana() >= this.skillThreeManaUsage) ? true : false;
+        return getMana() >= this.skillThreeManaUsage;
     }
 
     public void resetCoolDown() {
         this.skillOneCooldown = resetSkillOneCooldown;
         this.skillTwoCooldown = resetSkillTwoCooldown;
         this.skillThreeCooldown = resetSkillThreeCooldown;
+    }
+
+    public boolean isDefeated() {
+        return this.defeated;
+    }
+
+    public void setDefeated(boolean defeated) {
+        this.defeated = defeated;
     }
 
 }
