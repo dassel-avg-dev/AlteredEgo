@@ -114,8 +114,8 @@ public class ConsoleOutput {
                             ██╔══╝  ██║   ██║██║   ██║                           
                             ███████╗╚██████╔╝╚██████╔╝                           
                             ╚══════╝ ╚═════╝  ╚═════╝            
-                
-                
+                            
+                            BY: SHELL SYNDICATE SOFTWARE CO. LTD
                 """;
         System.out.println(purple + title + reset);
     }
@@ -123,7 +123,7 @@ public class ConsoleOutput {
     public void loadingScreen() {
         printWithDelay("\n\t\t\t\t\tLOADING GAME CONTENT......", fastDelayPreset);
         System.out.println("1%                                                        100%");
-        printWithDelay("[ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ]", fastDelayPreset);
+        printWithDelay("[ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ]", mediumDelayPreset);
     }
 
     public void playOrExitMenu() {
@@ -170,7 +170,7 @@ public class ConsoleOutput {
                     break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\n\t\t\tInvalid Input, Try Again!");
+                System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
             }
         }
@@ -182,7 +182,7 @@ public class ConsoleOutput {
         System.out.println();
         System.out.println("----------------- CHOOSE SKILL TO USE ------------------\n");
         for (int i = 0; i <= 3; i++) {
-            printSkillDisplay(player, i, "");
+            printSkillDisplay(player, i);
         }
         System.out.print("\t\t\tEnter choice (0, 1, 2, or 3): ");
     }
@@ -200,60 +200,63 @@ public class ConsoleOutput {
     }
 
     public void playerCharacterChoices(boolean isPVP) {
+        String tabs = "\t\t\t";
         System.out.println();
         if (isPVP) {
             System.out.println("----------------- CHOOSE YOUR CHAMPION ----------------");
         } else {
             System.out.println("----------------- CHOOSE YOUR CHARACTER ----------------");
         }
-        System.out.println("\t\t\t[1] Cosmic Dassel");
-        System.out.println("\t\t\t[2] Khylle The Reaper");
-        System.out.println("\t\t\t[3] Earl");
-        System.out.println("\t\t\t[4] The One John");
-        System.out.println("\t\t\t[5] And Rew");
-        System.out.println("\t\t\t[6] OP Character");
-        System.out.print("\t\t\tEnter choice (1, 2, 3, 4, 5 or 6): ");
+        System.out.println(tabs + "[1] Cosmic Dassel");
+        System.out.println(tabs + "[2] Khylle The Reaper");
+        System.out.println(tabs + "[3] Earl");
+        System.out.println(tabs + "[4] The One John");
+        System.out.println(tabs + "[5] And Rew");
+        System.out.println(tabs + "[6] OP Character");
+        System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
     }
 
 
     public void enemyCharacterChoices() {
-        System.out.println();
-        System.out.println("------------------ CHOOSE YOUR ENEMY ------------------");
-        System.out.println("\t\t\t[1] Kaniel Outis");
-        System.out.println("\t\t\t[2] Van Berksville");
-        System.out.println("\t\t\t[3] Asta Clover");
-        System.out.println("\t\t\t[4] JF Void");
-        System.out.println("\t\t\t[5] Deidre");
-        System.out.print("\t\t\tEnter (1, 2, 3, 4, or 5): ");
+        String tabs = "\t\t\t";
+        System.out.println("\n------------------ CHOOSE YOUR ENEMY ------------------");
+        System.out.println(tabs + "[1] Kaniel Outis");
+        System.out.println(tabs + "[2] Van Berksville");
+        System.out.println(tabs + "[3] Asta Clover");
+        System.out.println(tabs + "[4] JF Void");
+        System.out.println(tabs + "[5] Deidre");
+        System.out.print(tabs +"Enter (1, 2, 3, 4, or 5): ");
     }
 
     public void enemyCharacterChoices(boolean isPVP) {
+        String tabs = "\t\t\t";
         System.out.println();
         if (isPVP) {
             System.out.println("------------------ CHOOSE YOUR CHAMPION ------------------");
         } else {
             System.out.println("------------------ CHOOSE YOUR ENEMY ---------------------");
         }
-        System.out.println("\t\t\t[1] Kaniel Outis");
-        System.out.println("\t\t\t[2] Van Berksville");
-        System.out.println("\t\t\t[3] Asta Clover");
-        System.out.println("\t\t\t[4] JF Void");
-        System.out.println("\t\t\t[5] Deidre");
-        System.out.print("\t\t\tEnter (1, 2, 3, 4, or 5): ");
+        System.out.println(tabs + "[1] Kaniel Outis");
+        System.out.println(tabs + "[2] Van Berksville");
+        System.out.println(tabs + "[3] Asta Clover");
+        System.out.println(tabs + "[4] JF Void");
+        System.out.println(tabs + "[5] Deidre");
+        System.out.print(tabs + "Enter (1, 2, 3, 4, or 5): ");
     }
 
     public void showRoundHeader(int roundNumber, int turnNumber) {
-        System.out.println();
-        System.out.println();
-        System.out.println("==================== Round " + roundNumber + " - Turn " + turnNumber + " ====================");
+        System.out.println("\n\n==================== Round " + roundNumber + " - Turn " + turnNumber + " ====================");
     }
 
-    private static void printSkillDisplay(Player character, int skillIndex, String indent) {
-        System.out.println(indent + formatSkillLabel(character, skillIndex));
-        System.out.println(indent + getDamageRange(character, skillIndex));
+    private static void printSkillDisplay(Player character, int skillIndex) {
+        String tabs = "\t\t\t\t";
+        System.out.println(tabs + formatSkillLabel(character, skillIndex));
+        System.out.println(tabs + getDamageRange(character, skillIndex));
+
         String cooldown = formatCooldownValue(getSkillCooldownValue(character, skillIndex));
         String mana = formatManaCost(getSkillManaCost(character, skillIndex));
-        System.out.println(indent + "CD: " + cooldown + " | Mana: " + mana);
+
+        System.out.println(tabs + "CD: " + cooldown + " | Mana: " + mana);
         System.out.println();
     }
 
@@ -328,7 +331,7 @@ public class ConsoleOutput {
                     break;
                 }
             } catch (InputMismatchException error) {
-                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                 scanner.nextLine();
             }
         }
@@ -350,7 +353,7 @@ public class ConsoleOutput {
                     break;
                 }
             } catch (InputMismatchException error) {
-                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                 scanner.nextLine();
             }
         }
@@ -366,7 +369,7 @@ public class ConsoleOutput {
                 enemyChoice = scanner.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("\n\t\t\tInvalid Input, Try Again!");
+                System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
             }
         }
@@ -384,7 +387,7 @@ public class ConsoleOutput {
                 enemyChoice = scanner.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("\n\t\t\tInvalid Input, Try Again!");
+                System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
             }
         }
@@ -404,12 +407,12 @@ public class ConsoleOutput {
                     specialEncounterMonologue(enemy);
                     break;
                 } else if (skipSegmentChoice != 'Y') {
-                    System.out.println("\n\t\t\tInvalid Input. Try again!");
+                    System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                 } else {
                     break;
                 }
             } catch (InputMismatchException error) {
-                System.out.println("\n\t\t\tInvalid Input. Try again!");
+                System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                 scanner.nextLine();
             }
         } while (skipSegmentChoice != 'Y');
@@ -420,7 +423,7 @@ public class ConsoleOutput {
         System.out.println();
         System.out.println("------------- " + enemy.getName() + "'s Skills: ------------\n");
         for (int i = 0; i <= 3; i++) {
-            printSkillDisplay(enemy, i, "");
+            printSkillDisplay(enemy, i);
         }
         printWithDelay(enemy.getName() + " is preparing for a counter attack..........", fastDelayPreset);
     }
@@ -469,7 +472,7 @@ public class ConsoleOutput {
                     throw new InputMismatchException();
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\n\t\t\tInvalid Input, Try Again!");
+                System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
             }
         }
@@ -717,7 +720,7 @@ public class ConsoleOutput {
         System.out.println();
         System.out.println("------------------ CHOOSE SKILL TO USE -----------------\n");
         for (int i = 0; i <= 3; i++) {
-            printSkillDisplay(enemy, i, "");
+            printSkillDisplay(enemy, i);
         }
         System.out.print("\t\t\tEnter choice (0, 1, 2, or 3): ");
     }
@@ -792,7 +795,7 @@ public class ConsoleOutput {
                             } else
                                 break;
                         } catch (InputMismatchException e) {
-                            System.out.println("\n\t\tInvalid Input, Try Again!");
+                            System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                             scanner.nextLine();
                         }
                     }
@@ -874,7 +877,7 @@ public class ConsoleOutput {
                             } else
                                 break;
                         } catch (InputMismatchException e) {
-                            System.out.println("\n\t\tInvalid Input, Try Again!");
+                            System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                             scanner.nextLine();
                         }
                     }
@@ -1009,7 +1012,7 @@ public class ConsoleOutput {
                             throw new InputMismatchException();
                         }
                     } catch (InputMismatchException error) {
-                        System.out.println("\n\t\tInvalid Input. Try again!");
+                        System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                         scanner.nextLine();
                     }
                 }
@@ -1081,7 +1084,7 @@ public class ConsoleOutput {
                             break;
                         }
                     } catch (InputMismatchException e) {
-                        System.out.println("\n\t\tInvalid Input, Try Again!");
+                        System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                         scanner.nextLine();
                     }
                 }
@@ -1280,7 +1283,7 @@ public class ConsoleOutput {
                         throw new InputMismatchException();
                     enemy = enemies.get(choice - 1);
                 } catch (InputMismatchException e) {
-                    System.out.println("\t\t\tInvalid Input. Try Again!");
+                    System.out.println("\t\t\t\tInvalid Input. Try Again!");
                     scanner.nextLine();
                 }
             }
@@ -1352,7 +1355,7 @@ public class ConsoleOutput {
                             }
                         }
                     } catch (InputMismatchException e) {
-                        System.out.println("\n\t\t\tInvalid Input, Try Again!");
+                        System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                         scanner.nextLine();
                     }
                 }
