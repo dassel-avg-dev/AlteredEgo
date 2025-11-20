@@ -179,24 +179,11 @@ public class ConsoleOutput {
 
 
     public void playerSkillChoices(Player player) {
-        String basicAttackDamage = (player.getName().equals("OP Character")) ? "(Min: 50 | Max: 50)" : "(Min: 20 | Max: 30)";
-        String skillOneDamage = (player.getName().equals("OP Character")) ? "(Min: 100 | Max: 100)" : "(Min: 30 | Max: 40)";
-        String skillTwoDamage = (player.getName().equals("OP Character")) ? "(Min: 150 | Max: 150)" : "(Min: 40 | Max: 50)";
-        String skillThreeDamage = (player.getName().equals("OP Character")) ? "(Min: 200 | Max: 200)" : "(Min: 100 | Max: 150)";
-
         System.out.println();
         System.out.println("----------------- CHOOSE SKILL TO USE ------------------\n");
-        System.out.println("\t\t\t[0] Basic Attack ");
-        System.out.println("\t\t\t" + basicAttackDamage + "\n");
-
-        System.out.println("\t\t\t[1] Skill One: " + player.getSkillOneName());
-        System.out.println("\t\t\t" + skillOneDamage + "\n");
-
-        System.out.println("\t\t\t[2] SKill Two: " + player.getSkillTwoName());
-        System.out.println("\t\t\t" + skillTwoDamage + "\n");
-
-        System.out.println("\t\t\t[3] Skill Three: " + player.getSkillThreeName());
-        System.out.println("\t\t\t" + skillThreeDamage + "\n");
+        for (int i = 0; i <= 3; i++) {
+            printSkillDisplay(player, i, "");
+        }
         System.out.print("\t\t\tEnter choice (0, 1, 2, or 3): ");
     }
 
@@ -255,66 +242,77 @@ public class ConsoleOutput {
         System.out.print("\t\t\tEnter (1, 2, 3, 4, or 5): ");
     }
 
-    public void showRoundHeader(int round) {
+    public void showRoundHeader(int roundNumber, int turnNumber) {
         System.out.println();
-        System.out.println("==================== Match — Round " + round + " ====================");
+        System.out.println();
+        System.out.println("==================== Round " + roundNumber + " - Turn " + turnNumber + " ====================");
+    }
+
+    private static void printSkillDisplay(Player character, int skillIndex, String indent) {
+        System.out.println(indent + formatSkillLabel(character, skillIndex));
+        System.out.println(indent + getDamageRange(character, skillIndex));
+        String cooldown = formatCooldownValue(getSkillCooldownValue(character, skillIndex));
+        String mana = formatManaCost(getSkillManaCost(character, skillIndex));
+        System.out.println(indent + "CD: " + cooldown + " | Mana: " + mana);
         System.out.println();
     }
 
-    //show player and enemy cd
-    public void showBothCooldownsAndResources(Player player, Enemy enemy) {
-        final int smallDelay = 25;                                            //|
-        String line = "----------------------------------------------------------";
-        //player
-        printWithDelay("[Player] " + player.getName() + "\n", smallDelay);
-        System.out.println(line);
-        printWithDelay("\t\t\t\t[0] Basic Attack", smallDelay);
-        printWithDelay("\t\t\t\tCD: READY | Mana: —", smallDelay);
-
-        System.out.println(line);
-        printWithDelay("\t\t\t\t" + "[1] " + player.getSkillOneName(), smallDelay);
-        printWithDelay("\t\t\t\tCD: " + (player.getSkillOneCooldown() == 0 ? "READY" : player.getSkillOneCooldown() + " Turns") + " | Mana: " + player.getSkillOneManaUsage(), smallDelay);
-
-        System.out.println(line);
-        printWithDelay("\t\t\t\t" + "[2] " + player.getSkillTwoName(), smallDelay);
-        printWithDelay("\t\t\t\tCD: " + (player.getSkillTwoCooldown() == 0 ? "READY" : player.getSkillTwoCooldown() + " Turns") + " | Mana: " + player.getSkillTwoManaUsage(), smallDelay);
-
-        System.out.println(line);
-        printWithDelay("\t\t\t\t" + "[3] " + player.getSkillThreeName(), smallDelay);
-        printWithDelay("\t\t\t\tCD: " + (player.getSkillThreeCooldown() == 0 ? "READY" : player.getSkillThreeCooldown() + " Turns") + " | Mana: " + player.getSkillThreeManaUsage(), smallDelay);
-        System.out.println(line);
-        System.out.println();
-        System.out.println();
-
-        //enemy
-        printWithDelay("[Enemy] " + enemy.getName() + "\n", smallDelay);
-        System.out.println(line);
-        printWithDelay("\t\t\t\t[0] Basic Attack", smallDelay);
-        printWithDelay("\t\t\t\tCD: READY | Mana: —", smallDelay);
-
-        System.out.println(line);
-        printWithDelay("\t\t\t\t" + "[1] " + enemy.getSkillOneName(), smallDelay);
-        printWithDelay("\t\t\t\tCD: " + (enemy.getSkillOneCooldown() == 0 ? "READY" : enemy.getSkillOneCooldown() + " Turns") + " | Mana: " + enemy.getSkillOneManaUsage(), smallDelay);
-
-        System.out.println(line);
-        printWithDelay("\t\t\t\t" + "[2] " + enemy.getSkillTwoName(), smallDelay);
-        printWithDelay("\t\t\t\tCD: " + (enemy.getSkillTwoCooldown() == 0 ? "READY" : enemy.getSkillTwoCooldown() + " Turns") + " | Mana: " + enemy.getSkillTwoManaUsage(), smallDelay);
-
-        System.out.println(line);
-        printWithDelay("\t\t\t\t" + "[3] " + enemy.getSkillThreeName(), smallDelay);
-        printWithDelay("\t\t\t\tCD: " + (enemy.getSkillThreeCooldown() == 0 ? "READY" : enemy.getSkillThreeCooldown() + " Turns") + " | Mana: " + enemy.getSkillThreeManaUsage(), smallDelay);
-        System.out.println(line);
-        System.out.println("==========================================================\n");
+    private static String formatSkillLabel(Player character, int skillIndex) {
+        return "[" + skillIndex + "] " + getSkillDisplayName(character, skillIndex);
     }
 
-    private String formatSkillLine(String skillLabel, String midLabel, int cdValue, String rightLabel) {
-        String cdString = (cdValue <= 0) ? "Ready" : cdValue + " turn(s)";
-        return String.format("\t%s %s: %s \t%s", skillLabel, midLabel, cdString, rightLabel);
+    private static String getSkillDisplayName(Player character, int skillIndex) {
+        return switch (skillIndex) {
+            case 0 -> "Basic Attack";
+            case 1 -> "Skill One: " + character.getSkillOneName();
+            case 2 -> "Skill Two: " + character.getSkillTwoName();
+            case 3 -> "Skill Three: " + character.getSkillThreeName();
+            default -> "Unknown Skill";
+        };
     }
 
-    public void showRoundStatus(int round, Player player, Enemy enemy) {
-        showRoundHeader(round);
-        showBothCooldownsAndResources(player, enemy);
+    private static int getSkillCooldownValue(Player character, int skillIndex) {
+        return switch (skillIndex) {
+            case 1 -> character.getSkillOneCooldown();
+            case 2 -> character.getSkillTwoCooldown();
+            case 3 -> character.getSkillThreeCooldown();
+            default -> 0;
+        };
+    }
+
+    private static int getSkillManaCost(Player character, int skillIndex) {
+        return switch (skillIndex) {
+            case 1 -> character.getSkillOneManaUsage();
+            case 2 -> character.getSkillTwoManaUsage();
+            case 3 -> character.getSkillThreeManaUsage();
+            default -> 0;
+        };
+    }
+
+    private static String formatCooldownValue(int cooldown) {
+        if (cooldown <= 0) {
+            return "READY";
+        }
+        return cooldown == 1 ? "1 Turn" : cooldown + " Turns";
+    }
+
+    private static String formatManaCost(int manaCost) {
+        return manaCost <= 0 ? "-" : String.valueOf(manaCost);
+    }
+
+    private static String getDamageRange(Player character, int skillIndex) {
+        boolean isOP = "OP Character".equals(character.getName());
+        return switch (skillIndex) {
+            case 0 -> isOP ? "(Min: 50 | Max: 50)" : "(Min: 20 | Max: 30)";
+            case 1 -> isOP ? "(Min: 100 | Max: 100)" : "(Min: 30 | Max: 40)";
+            case 2 -> isOP ? "(Min: 150 | Max: 150)" : "(Min: 40 | Max: 50)";
+            case 3 -> isOP ? "(Min: 200 | Max: 200)" : "(Min: 100 | Max: 150)";
+            default -> "(Min: ? | Max: ?)";
+        };
+    }
+
+    public void showRoundStatus(int matchNumber, int turnNumber, Player player, Enemy enemy) {
+        showRoundHeader(matchNumber, turnNumber);
     }
 
     // wrap up function for player character choice integer input
@@ -421,18 +419,9 @@ public class ConsoleOutput {
     public void enemySkillChoices(Enemy enemy) {
         System.out.println();
         System.out.println("------------- " + enemy.getName() + "'s Skills: ------------\n");
-        System.out.println("\t\t[0] Basic Attack");
-        System.out.println("\t\t(Min: 20 | Max: 30)\n");
-
-        System.out.println("\t\t[1] Skill One: " + enemy.getSkillOneName());
-        System.out.println("\t\t(Min: 30 | Max: 40)\n");
-
-        System.out.println("\t\t[2] Skill Two: " + enemy.getSkillTwoName());
-        System.out.println("\t\t(Min: 40 | Max: 50)\n");
-
-        System.out.println("\t\t[3] Skill Three: " + enemy.getSkillThreeName());
-        System.out.println("\t\t(Min: 100 | Max: 150)");
-        System.out.println();
+        for (int i = 0; i <= 3; i++) {
+            printSkillDisplay(enemy, i, "");
+        }
         printWithDelay(enemy.getName() + " is preparing for a counter attack..........", fastDelayPreset);
     }
 
@@ -727,17 +716,9 @@ public class ConsoleOutput {
     public static void player2SkillChoice(Enemy enemy) {
         System.out.println();
         System.out.println("------------------ CHOOSE SKILL TO USE -----------------\n");
-        System.out.println("\t\t\t[0] Basic Attack");
-        System.out.println("\t\t\t(Min: 20 | Max: 30)\n");
-
-        System.out.println("\t\t\t[1] Skill One: " + enemy.getSkillOneName());
-        System.out.println("\t\t\t(Min: 30 | Max: 40)\n");
-
-        System.out.println("\t\t\t[2] Skill Two: " + enemy.getSkillTwoName());
-        System.out.println("\t\t\t(Min: 40 | Max: 50)\n");
-
-        System.out.println("\t\t\t[3] Skill Three: " + enemy.getSkillThreeName());
-        System.out.println("\t\t\t(Min: 100 | Max: 150)\n");
+        for (int i = 0; i <= 3; i++) {
+            printSkillDisplay(enemy, i, "");
+        }
         System.out.print("\t\t\tEnter choice (0, 1, 2, or 3): ");
     }
 
@@ -787,17 +768,18 @@ public class ConsoleOutput {
         do {
 
             isRunning = true;
+            int turn = 1;
             printWithDelay("\n-------------------- Round " + round + " Starts --------------------", fastDelayPreset);
 
             do {
                 int playerSkillChoice = 0, enemySkillChoice = 0, newPlayerMana = 0, newEnemyMana = 0;
 
-                showRoundStatus(round, player, enemy);
+                showRoundStatus(round, turn, player, enemy);
 
                 System.out.println();
                 System.out.println("----------------- Player 1 Current Status --------------");
-                printWithDelay("\n[" + player.getName() + "] Health: " + player.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[" + player.getName() + "] Mana: " + player.getMana(), fastDelayPreset);
+                printWithDelay("\n[Player 1] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
+                printWithDelay("\n[Player 1] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
 
                 boolean playerActed = false;
                 while (!playerActed) {
@@ -878,8 +860,8 @@ public class ConsoleOutput {
 
                 System.out.println();
                 System.out.println("----------------- Player 2 Current Status --------------");
-                printWithDelay("\n[" + enemy.getName() + "] Health: " + enemy.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[" + enemy.getName() + "] Mana: " + enemy.getMana(), fastDelayPreset);
+                printWithDelay("\n[Player 2] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
+                printWithDelay("\n[Player 2] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
 
                 boolean enemyActed = false;
                 while (!enemyActed) {
@@ -968,6 +950,8 @@ public class ConsoleOutput {
 
                 if (player.getHitpoints() <= 0 || enemy.getHitpoints() <= 0) {
                     isRunning = false;
+                } else {
+                    turn++;
                 }
             } while (isRunning);
 
@@ -1069,18 +1053,19 @@ public class ConsoleOutput {
             specialEncounterCounterPart(player, enemy);
         }
 
-        int round = 1;
+        final int matchNumber = 1;
+        int turn = 1;
         boolean isRunning = true;
         do {
             int playerSkillChoice = 0, enemySkillChoice = 0, newPlayerMana = 0, newEnemyMana = 0;
 
-            showRoundStatus(round, player, enemy);
+            showRoundStatus(matchNumber, turn, player, enemy);
 
             System.out.println();
             //show both health and Mana
             System.out.println("------------------- Current Status -------------------");
-            printWithDelay("\n[" + player.getName() + "] Health: " + player.getHitpoints(), fastDelayPreset);
-            printWithDelay("\n[" + player.getName() + "] Mana: " + player.getMana(), fastDelayPreset);
+            printWithDelay("\n[Player] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
+            printWithDelay("\n[Player] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
 
             boolean playerActed = false;
 
@@ -1166,8 +1151,8 @@ public class ConsoleOutput {
 
             System.out.println();
             System.out.println("------------------ CURRENT STATUS ------------------");
-            printWithDelay("\n[" + enemy.getName() + "] Health: " + enemy.getHitpoints(), fastDelayPreset);
-            printWithDelay("\n[" + enemy.getName() + "] Mana: " + enemy.getMana(), fastDelayPreset);
+            printWithDelay("\n[Computer] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
+            printWithDelay("\n[Computer] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
 
             enemySkillChoice = random.nextInt(0, 4);
             enemySkillChoices(enemy);
@@ -1231,7 +1216,7 @@ public class ConsoleOutput {
             enemy.reduceSkillOneCooldown();
             enemy.reduceSkillTwoCooldown();
             enemy.reduceSkillThreeCooldown();
-            round++;
+            turn++;
 
             if (player.getHitpoints() <= 0 || enemy.getHitpoints() <= 0) {
                 isRunning = false;
@@ -1276,6 +1261,8 @@ public class ConsoleOutput {
         }
 
 
+        int matchCount = 0;
+
         // --- ARCADE LOOP ---
         while (player.getHitpoints() > 0 && !enemies.isEmpty()) {
             System.out.println();
@@ -1300,15 +1287,16 @@ public class ConsoleOutput {
 
             printOrSkipNarrativeSegment(player, enemy);
 
-            int round = 1;
+            int turnCounter = 1;
             boolean fightActive = true;
+            int matchNumber = matchCount + 1;
 
             while (fightActive && player.getHitpoints() > 0 && enemy.getHitpoints() > 0) {
-                showRoundStatus(round, player, enemy);
+                showRoundStatus(matchNumber, turnCounter, player, enemy);
                 System.out.println();
                 System.out.println("------------------- CURRENT STATUS -------------------");
-                printWithDelay("\n[" + player.getName() + "] Health: " + player.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[" + player.getName() + "] Mana: " + player.getMana(), fastDelayPreset);
+                printWithDelay("\n[Player 1] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
+                printWithDelay("\n[Player 1] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
 
                 // ---------------- PLAYER TURN ----------------
                 boolean playerActed = false;
@@ -1385,8 +1373,8 @@ public class ConsoleOutput {
                 // ---------------- ENEMY TURN ----------------
                 System.out.println();
                 System.out.println("------------------ ENEMY TURN ------------------");
-                printWithDelay("\n[" + enemy.getName() + "] Health: " + enemy.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[" + enemy.getName() + "] Mana: " + enemy.getMana(), fastDelayPreset);
+                printWithDelay("\n[Enemy] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
+                printWithDelay("\n[Enemy] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
 
                 int enemySkillChoice = random.nextInt(0, 4);
                 enemySkillUseMonologue(enemy, enemySkillChoice);
@@ -1432,12 +1420,16 @@ public class ConsoleOutput {
                 enemy.reduceSkillTwoCooldown();
                 enemy.reduceSkillThreeCooldown();
 
-                round++;
+                turnCounter++;
 
                 if (player.getHitpoints() <= 0) {
                     fightActive = false;
                     printWithDelay("\n\t\t\t" + player.getName() + " has been defeated!", fastDelayPreset);
                 }
+            }
+
+            if (enemy.getHitpoints() <= 0) {
+                matchCount++;
             }
 
             if (player.getHitpoints() <= 0) {
@@ -1451,6 +1443,4 @@ public class ConsoleOutput {
         }
         // end of function
     }
-
-
 }
