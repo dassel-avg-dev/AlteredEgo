@@ -225,7 +225,8 @@ public class ConsoleOutput {
         System.out.println(tabs + "[3] Asta Clover");
         System.out.println(tabs + "[4] JF Void");
         System.out.println(tabs + "[5] Deidre");
-        System.out.print(tabs +"Enter (1, 2, 3, 4, or 5): ");
+        System.out.println(tabs + "[6] Random");
+        System.out.print(tabs +"Enter (1, 2, 3, 4, 5, or 6): ");
     }
 
     public void enemyCharacterChoices(boolean isPVP) {
@@ -367,9 +368,15 @@ public class ConsoleOutput {
             try {
                 enemyCharacterChoices();
                 enemyChoice = scanner.nextInt();
+                if(enemyChoice < 1 || enemyChoice > 6) {
+                    throw new InputMismatchException();
+                }
+                else {
+                    enemyChoice = random.nextInt(1, 7);
+                }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
+                System.out.println("\n\t\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
             }
         }
