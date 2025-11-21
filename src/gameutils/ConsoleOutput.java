@@ -117,13 +117,37 @@ public class ConsoleOutput {
                             
                             BY: SHELL SYNDICATE SOFTWARE CO. LTD
                 """;
-        System.out.println(purple + title + reset);
+        printWithDelay(purple + title + reset, 5);
+    }
+
+    public void printEndCredits() {
+        String purple = "\u001B[35m";
+        String green = "\u001B[32m";
+        String reset = "\u001B[0m";
+        String text = """
+                
+                            ████████╗██╗  ██╗███████╗
+                            ╚══██╔══╝██║  ██║██╔════╝
+                               ██║   ███████║█████╗  
+                               ██║   ██╔══██║██╔══╝  
+                               ██║   ██║  ██║███████╗
+                               ╚═╝   ╚═╝  ╚═╝╚══════╝
+                            
+                            ███████╗███╗   ██╗██████╗
+                            ██╔════╝████╗  ██║██╔══██╗
+                            █████╗  ██╔██╗ ██║██║  ██║
+                            ██╔══╝  ██║╚██╗██║██║  ██║
+                            ███████╗██║ ╚████║██████╔╝
+                            ╚══════╝╚═╝  ╚═══╝╚═════╝
+                
+                """;
+        printWithDelay(purple + text + reset, 5);
     }
 
     public void loadingScreen() {
         printWithDelay("\n\t\t\t\t\tLOADING GAME CONTENT......", fastDelayPreset);
         System.out.println("1%                                                        100%");
-        printWithDelay("[ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ]", mediumDelayPreset);
+        printWithDelay("[ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ]", fastDelayPreset);
     }
 
     public void playOrExitMenu() {
@@ -151,14 +175,15 @@ public class ConsoleOutput {
 
     public int gameModeChoiceInputHandler() {
         int choice = -1;
+        String tabs = "\t\t\t";
         while (true) {
             System.out.println();
             System.out.println("------------------ CHOOSE GAME MODE ------------------");
-            System.out.println("\t\t\t[1] Player vs Player");
-            System.out.println("\t\t\t[2] Player vs Computer");
-            System.out.println("\t\t\t[3] Arcade Mode");
-            System.out.println("\t\t\t[4] Random");
-            System.out.print("\t\t\tEnter choice (1, 2, 3, or 4): ");
+            System.out.println(tabs + "[1] Player vs Player");
+            System.out.println(tabs + "[2] Player vs Computer");
+            System.out.println(tabs + "[3] Arcade Mode");
+            System.out.println(tabs + "[4] Random");
+            System.out.print(tabs + "Enter choice (1, 2, 3, or 4): ");
             try {
                 choice = scanner.nextInt();
                 if (choice < 1 || choice > 4) {
@@ -188,15 +213,16 @@ public class ConsoleOutput {
     }
 
     public void playerCharacterChoices() {
+        String tabs = "\t\t\t";
         System.out.println();
         System.out.println("----------------- CHOOSE YOUR CHARACTER ----------------");
-        System.out.println("\t\t\t[1] Cosmic Dassel");
-        System.out.println("\t\t\t[2] Khylle The Reaper");
-        System.out.println("\t\t\t[3] Earl");
-        System.out.println("\t\t\t[4] The One John");
-        System.out.println("\t\t\t[5] And Rew");
-        System.out.println("\t\t\t[6] OP Character");
-        System.out.print("\t\t\tEnter choice (1, 2, 3, 4, 5 or 6): ");
+        System.out.println(tabs + "[1] Cosmic Dassel");
+        System.out.println(tabs + "[2] Khylle The Reaper");
+        System.out.println(tabs + "[3] Earl");
+        System.out.println(tabs + "[4] The One John");
+        System.out.println(tabs + "[5] And Rew");
+        System.out.println(tabs + "[6] OP Character");
+        System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
     }
 
     public void playerCharacterChoices(boolean isPVP) {
@@ -310,7 +336,7 @@ public class ConsoleOutput {
             case 0 -> isOP ? "(Min: 50 | Max: 50)" : "(Min: 20 | Max: 30)";
             case 1 -> isOP ? "(Min: 100 | Max: 100)" : "(Min: 30 | Max: 40)";
             case 2 -> isOP ? "(Min: 150 | Max: 150)" : "(Min: 40 | Max: 50)";
-            case 3 -> isOP ? "(Min: 200 | Max: 200)" : "(Min: 100 | Max: 150)";
+            case 3 -> isOP ? "(Min: 500 | Max: 500)" : "(Min: 100 | Max: 150)";
             default -> "(Min: ? | Max: ?)";
         };
     }
@@ -1001,7 +1027,6 @@ public class ConsoleOutput {
                             enemy.resetStats();
                             enemy.resetCoolDown();
                             round++;
-                            break;
                         } else if (ans == 'N') {
                             printWithDelay("\n==================== Final Results =====================\n", fastDelayPreset);
                             printWithDelay(player.getName() + " Wins: " + player1Win + "\n", fastDelayPreset);
@@ -1018,6 +1043,7 @@ public class ConsoleOutput {
                         } else {
                             throw new InputMismatchException();
                         }
+                        break;
                     } catch (InputMismatchException error) {
                         System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                         scanner.nextLine();

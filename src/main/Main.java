@@ -46,6 +46,8 @@ public class Main {
             }
         } while (gameIsRunning);
 
+        CO.printEndCredits();
+
         scanner.close();
     }
 
