@@ -182,7 +182,7 @@ public class ConsoleOutput {
         System.out.println();
         System.out.println("----------------- CHOOSE SKILL TO USE ------------------\n");
         for (int i = 0; i <= 3; i++) {
-            printSkillDisplay(player, i, "");
+            printSkillDisplay(player, i, "\t\t\t");
         }
         System.out.print("\t\t\tEnter choice (0, 1, 2, or 3): ");
     }
@@ -420,7 +420,7 @@ public class ConsoleOutput {
         System.out.println();
         System.out.println("------------- " + enemy.getName() + "'s Skills: ------------\n");
         for (int i = 0; i <= 3; i++) {
-            printSkillDisplay(enemy, i, "");
+            printSkillDisplay(enemy, i, "\t\t\t");
         }
         printWithDelay(enemy.getName() + " is preparing for a counter attack..........", fastDelayPreset);
     }
@@ -717,7 +717,7 @@ public class ConsoleOutput {
         System.out.println();
         System.out.println("------------------ CHOOSE SKILL TO USE -----------------\n");
         for (int i = 0; i <= 3; i++) {
-            printSkillDisplay(enemy, i, "");
+            printSkillDisplay(enemy, i, "\t\t\t");
         }
         System.out.print("\t\t\tEnter choice (0, 1, 2, or 3): ");
     }
