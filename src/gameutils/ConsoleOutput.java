@@ -1298,28 +1298,15 @@ public class ConsoleOutput {
 
 
         int matchCount = 0;
+        int wins = 0;
 
-        // --- ARCADE LOOP ---
+
         while (player.getHitpoints() > 0 && !enemies.isEmpty()) {
             System.out.println();
-            printCenter(" CHOOSE YOUR OPONENT ", len, '-');
-            for (int i = 0; i < enemies.size(); i++) {
-                System.out.println("\t\t\t[" + (i + 1) + "] " + enemies.get(i).getName());
-            }
+            Enemy enemy = enemies.get(random.nextInt(enemies.size()));
+            System.out.println();
+            System.out.println("\t\t\tYour next opponent is: " + enemy.getName());
 
-            Enemy enemy = null;
-            while (enemy == null) {
-                try {
-                    System.out.print("\t\t\tEnter choice (1, 2, 3, 4, or 5): ");
-                    int choice = scanner.nextInt();
-                    if (choice < 1 || choice > enemies.size())
-                        throw new InputMismatchException();
-                    enemy = enemies.get(choice - 1);
-                } catch (InputMismatchException e) {
-                    System.out.println("\t\t\t\tInvalid Input. Try Again!");
-                    scanner.nextLine();
-                }
-            }
 
             printOrSkipNarrativeSegment(player, enemy);
 
@@ -1395,8 +1382,68 @@ public class ConsoleOutput {
 
                 if (enemy.getHitpoints() <= 0) {
                     printWithDelay("\n" + enemy.getName() + " has been defeated!", fastDelayPreset);
+                    wins++;
+                    int healAmount;
+
+                    if (player.getHitpoints() < 250) {
+
+                        healAmount = random.nextInt(75, 101);
+                    } else {
+                        healAmount = random.nextInt(100, 151);
+                    }
+
+                    player.heal(healAmount);
+                    printWithDelay("\n" + player.getName() + " recovers " + healAmount + " HP after the victory!", fastDelayPreset);
+                    System.out.println("\nWins: " + wins + " / 5");
                     enemy.setDefeated(true);
                     enemies.remove(enemy);
+
+
+                    Enemy ohmaZio = new Enemy("Ohma Zi-O", "Temporal Strike", "Rift Crush", "King's Judgment");
+                    ohmaZio.setHitpoints(1000);
+                    ohmaZio.setMana(300);
+
+
+                    if (wins == 5) {
+                        printWithDelay("\n\nInitiating ending game sequence", fastDelayPreset);
+
+
+                        printWithDelay("......................", fastDelayPreset);
+
+
+                        printWithDelay("fail fail fail fail fail fail error 404", fastDelayPreset);
+
+
+                        printWithDelay("\nThe atmosphere has shifted...", fastDelayPreset);
+
+
+                        printWithDelay("Time has stopped...", fastDelayPreset);
+
+
+                        printWithDelay("A giant rift appeared!!!", fastDelayPreset);
+
+
+                        printWithDelay("\nBlessing of Time!", fastDelayPreset);
+
+
+                        printWithDelay("Highest!", fastDelayPreset);
+
+
+                        printWithDelay("Best!", fastDelayPreset);
+
+
+                        printWithDelay("Maximum!", fastDelayPreset);
+
+
+                        printWithDelay("Strongest King!", fastDelayPreset);
+
+
+                        printFinalBoss();
+                        fightFinalBoss(player, ohmaZio, scanner, random);
+                        break;
+
+
+                    }
                     fightActive = false;
                     break;
                 }
@@ -1477,6 +1524,130 @@ public class ConsoleOutput {
         if (player.getHitpoints() > 0 && enemies.isEmpty()) {
             printWithDelay("\n\t\t\tAll enemies have been defeated! You are the champion!\n", fastDelayPreset);
         }
-        // end of function
+    }
+
+    public void fightFinalBoss(Player player, Enemy boss, Scanner scanner, Random random) {
+        boolean fightActive = true;
+
+        // Intro lines (use printWithDelay if available)
+        printWithDelay("\nThe Final Battle Begins!", fastDelayPreset);
+        printWithDelay(player.getName() + " VS " + boss.getName(), fastDelayPreset);
+
+        while (fightActive && player.getHitpoints() > 0 && boss.getHitpoints() > 0) {
+
+            // show status (you have showRoundStatus for rounds — reuse a simple status here)
+            System.out.println("\n[Player] " + player.getName() + " HP: " + player.getHitpoints() + "  |  [Boss] " + boss.getName() + " HP: " + boss.getHitpoints());
+
+            // --- Player turn (reuse your existing player skill choice flow) ---
+            boolean playerActed = false;
+            while (!playerActed) {
+                try {
+                    playerSkillChoices(player);
+                    int skillChoice = scanner.nextInt();
+                    playerSkillUseMonologue(player, skillChoice);
+
+                    switch (skillChoice) {
+                        case 0 -> { boss.setHitpoints(player.basicAttack()); playerActed = true; }
+                        case 1 -> {
+                            if (player.getSkillOneCooldown() > 0) printWithDelay("\n" + player.getSkillOneName() + " is on cooldown!", fastDelayPreset);
+                            else if (!player.isSkillOneUsable()) printWithDelay("\nNot enough mana!", fastDelayPreset);
+                            else {
+                                boss.setHitpoints(player.skillOne());
+                                player.reduceMana(player.getSkillOneManaUsage());
+                                player.activateSkillOneCooldown();
+                                playerActed = true;
+                            }
+                        }
+                        case 2 -> { /* similar to case 1 for skillTwo */ }
+                        case 3 -> { /* similar to case 1 for skillThree */ }
+                        default -> { System.out.println("Invalid choice"); }
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid Input. Try again!");
+                    scanner.nextLine();
+                }
+            }
+
+            // check boss death
+            if (boss.getHitpoints() <= 0) {
+                printWithDelay("\n" + boss.getName() + " has been defeated!", fastDelayPreset);
+                break;
+            }
+
+
+            int enemySkillChoice = random.nextInt(0, 4);
+            enemySkillUseMonologue(boss, enemySkillChoice);
+            switch (enemySkillChoice) {
+                case 0 -> player.setHitpoints(boss.basicAttack());
+                case 1 -> {
+                    if (boss.getSkillOneCooldown() == 0 && boss.isSkillOneUsable()) {
+                        player.setHitpoints(boss.skillOne());
+                        boss.reduceMana(boss.getSkillOneManaUsage());
+                        boss.activateSkillOneCooldown();
+                    } else player.setHitpoints(boss.basicAttack());
+                }
+                case 2 -> {
+                    if (boss.getSkillTwoCooldown() == 0 && boss.isSkillTwoUsable()) {
+                        player.setHitpoints(boss.skillTwo());
+                        boss.reduceMana(boss.getSkillTwoManaUsage());
+                        boss.activateSkillTwoCooldown();
+                    } else {
+                        player.setHitpoints(boss.basicAttack());
+                    }
+                }
+
+                case 3 -> {
+                    if (boss.getSkillThreeCooldown() == 0 && boss.isSkillThreeUsable()) {
+                        player.setHitpoints(boss.skillThree());
+                        boss.reduceMana(boss.getSkillThreeManaUsage());
+                        boss.activateSkillThreeCooldown();
+                    } else {
+                        player.setHitpoints(boss.basicAttack());
+                    }
+                }
+
+            }
+
+            // mana regen + cooldown reduce (reuse patterns)
+            int bossManaRegen = random.nextInt(10, 31);
+            boss.increaseMana(bossManaRegen);
+            player.reduceSkillOneCooldown();
+            player.reduceSkillTwoCooldown();
+            player.reduceSkillThreeCooldown();
+            boss.reduceSkillOneCooldown();
+            boss.reduceSkillTwoCooldown();
+            boss.reduceSkillThreeCooldown();
+
+            if (player.getHitpoints() <= 0) {
+                printWithDelay("\nYou were defeated by " + boss.getName() + "...", fastDelayPreset);
+                break;
+            }
+        }
+
+        // After fight results
+        if (player.getHitpoints() > 0 && boss.getHitpoints() <= 0) {
+            printWithDelay("\nYOU BEAT THE FINAL BOSS! True ending unlocked!", fastDelayPreset);
+        }
+    }
+
+
+    public void printFinalBoss() {
+        String purple = "\u001B[35m";
+        String green = "\u001B[32m";
+        String reset = "\u001B[0m";
+        String text = """
+                  ░██████   ░██                                      ░█████████ ░██          ░██████  \s
+                 ░██   ░██  ░██                                            ░██              ░██   ░██ \s
+                ░██     ░██ ░████████  ░█████████████   ░██████           ░██   ░██        ░██     ░██\s
+                ░██     ░██ ░██    ░██ ░██   ░██   ░██       ░██        ░███    ░██░██████ ░██     ░██\s
+                ░██     ░██ ░██    ░██ ░██   ░██   ░██  ░███████       ░██      ░██        ░██     ░██\s
+                 ░██   ░██  ░██    ░██ ░██   ░██   ░██ ░██   ░██      ░██       ░██         ░██   ░██ \s
+                  ░██████   ░██    ░██ ░██   ░██   ░██  ░█████░██    ░█████████ ░██          ░██████  \s
+            
+                """;
+        printWithDelay(purple + text + reset, 5);
     }
 }
+
+
+
