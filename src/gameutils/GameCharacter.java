@@ -4,8 +4,10 @@ public abstract class GameCharacter {
     private String name;
     private int hitpoints;
     private int mana;
-    private int resetHitpoints;
-    private int resetMana;
+
+    //if si boss ang mo change ani good boy~
+    // private int resetHitpoints;
+    // private int resetMana;
 
     // if no value passed in the constructor
     public GameCharacter() {
@@ -45,6 +47,7 @@ public abstract class GameCharacter {
             this.hitpoints -= newHitpoints;
         }
     }
+
 
     public void reduceMana(int newMana) {
         if(this.mana - newMana <= 0) {
