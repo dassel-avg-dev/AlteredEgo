@@ -33,7 +33,7 @@ public class OPCharacter extends Player implements Skills {
 
     @Override
     public int skillThree() {
-        int damage = 200;
+        int damage = 500;
         CO.printWithDelay("\n"+getName()+ " used Skill Three: " +getSkillThreeName()+ ", worth " +damage+ " of damage!", fastDelayPreset);
         return damage;
     }
