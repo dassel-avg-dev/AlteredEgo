@@ -1457,7 +1457,7 @@ public class ConsoleOutput {
 
                     player.heal(healAmount);
                     player.increaseMana(manaAmount);
-
+                    player.resetCoolDown();
                     printWithDelay("\n" + player.getName() + " recovers " + healAmount + " HP after the victory!", fastDelayPreset);
                     printWithDelay("\n" + player.getName() + " recovers " + manaAmount + " Mana after the victory!", fastDelayPreset);
                     System.out.println("\nWins: " + wins + " / 5");

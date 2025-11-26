@@ -16,7 +16,7 @@ public abstract class GameCharacter {
 
     public GameCharacter(String name) {
         this.name = name;
-        this.hitpoints = 100;
+        this.hitpoints = 500;
         this.mana = 200;
     }
 
