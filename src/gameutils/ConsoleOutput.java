@@ -819,8 +819,9 @@ public class ConsoleOutput {
 
                 System.out.println();
                 System.out.println("----------------- Player 1 Current Status --------------");
-                printWithDelay("\n[Player 1] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[Player 1] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
+                printWithDelay("\n[Player 1] " + player.getName(), fastDelayPreset);
+                printWithDelay("\nHealth: " + player.getHitpoints(), fastDelayPreset);
+                printWithDelay("Mana: " + player.getMana(), fastDelayPreset);
 
                 boolean playerActed = false;
                 while (!playerActed) {
@@ -901,8 +902,9 @@ public class ConsoleOutput {
 
                 System.out.println();
                 System.out.println("----------------- Player 2 Current Status --------------");
-                printWithDelay("\n[Player 2] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[Player 2] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
+                printWithDelay("\n[Player 2] " + enemy.getName(), fastDelayPreset);
+                printWithDelay("\nHealth: " + enemy.getHitpoints(), fastDelayPreset);
+                printWithDelay("Mana: " + enemy.getMana(), fastDelayPreset);
 
                 boolean enemyActed = false;
                 while (!enemyActed) {
@@ -1111,8 +1113,9 @@ public class ConsoleOutput {
                 System.out.println();
                 //show both health and Mana
                 System.out.println("------------------- Current Status -------------------");
-                printWithDelay("\n[Player] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[Player] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
+                printWithDelay("\n[Player] " + player.getName(), fastDelayPreset);
+                printWithDelay("\nHealth: " + player.getHitpoints(), fastDelayPreset);
+                printWithDelay("Mana: " + player.getMana(), fastDelayPreset);
 
                 boolean playerActed = false;
 
@@ -1198,8 +1201,9 @@ public class ConsoleOutput {
 
                 System.out.println();
                 System.out.println("------------------ CURRENT STATUS ------------------");
-                printWithDelay("\n[Computer] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[Computer] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
+                printWithDelay("\n[Computer] " + enemy.getName(), fastDelayPreset);
+                printWithDelay("\nHealth: " + enemy.getHitpoints(), fastDelayPreset);
+                printWithDelay("Mana: " + enemy.getMana(), fastDelayPreset);
 
                 enemySkillChoice = random.nextInt(0, 4);
                 enemySkillChoices(enemy);
@@ -1380,8 +1384,9 @@ public class ConsoleOutput {
                 showRoundStatus(matchNumber, turnCounter, player, enemy);
                 System.out.println();
                 System.out.println("------------------- CURRENT STATUS -------------------");
-                printWithDelay("\n[Player 1] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[Player 1] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
+                printWithDelay("\n[Player 1] " + player.getName(), fastDelayPreset);
+                printWithDelay("\nHealth: " + player.getHitpoints(), fastDelayPreset);
+                printWithDelay("Mana: " + player.getMana(), fastDelayPreset);
 
                 // ---------------- PLAYER TURN ----------------
                 boolean playerActed = false;
@@ -1522,8 +1527,9 @@ public class ConsoleOutput {
                 // ---------------- ENEMY TURN ----------------
                 System.out.println();
                 System.out.println("------------------ ENEMY TURN ------------------");
-                printWithDelay("\n[Enemy] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
-                printWithDelay("\n[Enemy] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
+                printWithDelay("\n[Enemy] " + enemy.getName(), fastDelayPreset);
+                printWithDelay("\nHealth: " + enemy.getHitpoints(), fastDelayPreset);
+                printWithDelay("Mana: " + enemy.getMana(), fastDelayPreset);
 
                 int enemySkillChoice = random.nextInt(0, 4);
                 enemySkillUseMonologue(enemy, enemySkillChoice);
