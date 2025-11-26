@@ -379,7 +379,7 @@ public class ConsoleOutput {
                 playerChoice = scanner.nextInt();
                 if (playerChoice < 1 || playerChoice > 6) {
                     throw new InputMismatchException();
-                } else {
+                } else if (playerChoice == 6) {
                     playerChoice = random.nextInt(1, 6);
                 }
                 break;
@@ -423,7 +423,7 @@ public class ConsoleOutput {
                 enemyChoice = scanner.nextInt();
                 if (enemyChoice < 1 || enemyChoice > 6) {
                     throw new InputMismatchException();
-                } else {
+                } else if (enemyChoice == 6) {
                     enemyChoice = random.nextInt(1, 6);
                 }
                 break;
