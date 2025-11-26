@@ -10,7 +10,7 @@ public abstract class GameCharacter {
     // if no value passed in the constructor
     public GameCharacter() {
         this.name = "Unknown";
-        this.hitpoints = 100;
+        this.hitpoints = 500;
         this.mana = 200;
     }
 
@@ -25,7 +25,7 @@ public abstract class GameCharacter {
     }
 
     public void resetStats() {
-        this.hitpoints = 100;
+        this.hitpoints = 500;
         this.mana = 200;
     }
 

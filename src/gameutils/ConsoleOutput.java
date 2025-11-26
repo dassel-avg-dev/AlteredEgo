@@ -1376,7 +1376,6 @@ public class ConsoleOutput {
             int turnCounter = 1;
             boolean fightActive = true;
             int matchNumber = matchCount + 1;
-
             while (fightActive && player.getHitpoints() > 0 && enemy.getHitpoints() > 0) {
                 showRoundStatus(matchNumber, turnCounter, player, enemy);
                 System.out.println();
@@ -1446,23 +1445,19 @@ public class ConsoleOutput {
                 if (enemy.getHitpoints() <= 0) {
                     printWithDelay("\n" + enemy.getName() + " has been defeated!", fastDelayPreset);
                     wins++;
-                    int healAmount = 0;
-                    int manaAmount = 0;
+                    // base heal
+                    int healAmount = 50;
+                    // base mana
+                    int manaAmount = 20;
 
-                    if (player.getHitpoints() <= 100) {
-                        healAmount = random.nextInt(150, 161);
-                    } else {
-                        healAmount = random.nextInt(70, 81);
-                    }
-
-                    if(player.getMana() <= 50) {
-                        manaAmount = random.nextInt(80, 101);
-                    } else {
-                        manaAmount = random.nextInt(40, 51);
-                    }
+                    // base heal multiplied by random multiplier
+                    healAmount *= random.nextInt(1, 11);
+                    // base mana multiplied by random multiplier
+                    manaAmount *= random.nextInt(1, 11);
 
                     player.heal(healAmount);
                     player.increaseMana(manaAmount);
+
                     printWithDelay("\n" + player.getName() + " recovers " + healAmount + " HP after the victory!", fastDelayPreset);
                     printWithDelay("\n" + player.getName() + " recovers " + manaAmount + " Mana after the victory!", fastDelayPreset);
                     System.out.println("\nWins: " + wins + " / 5");
