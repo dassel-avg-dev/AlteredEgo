@@ -38,39 +38,35 @@ public abstract class GameCharacter {
     }
 
     public void setHitpoints(int newHitpoints) {
-        if(this.hitpoints - newHitpoints <= 0) {
+        if (this.hitpoints - newHitpoints <= 0) {
             this.hitpoints = 0;
-        }
-        else {
+        } else {
             this.hitpoints -= newHitpoints;
         }
     }
 
     public void reduceMana(int newMana) {
-        if(this.mana - newMana <= 0) {
+        if (this.mana - newMana <= 0) {
             this.mana = 0;
-        }
-        else {
+        } else {
             this.mana -= newMana;
         }
 
     }
 
     public void increaseMana(int newMana) {
-        if(newMana + this.mana > 200) {
+        if ((newMana + this.mana) > 200) {
             this.mana = 200;
-        }
-        else {
+        } else {
             this.mana += newMana;
         }
     }
 
     public void heal(int amount) {
-
-        if (amount <= 0) return;
-        this.hitpoints += amount;
-        if (this.hitpoints > 500) {
+        if ((this.hitpoints + amount) > 500) {
             this.hitpoints = 500;
+        } else {
+            this.hitpoints += amount;
         }
     }
 

@@ -32,9 +32,6 @@ public class Player extends GameCharacter implements Skills {
         this.skillOneManaUsage = 25;
         this.skillTwoManaUsage = 50;
         this.skillThreeManaUsage = 100;
-        this.resetSkillOneCooldown = this.skillOneCooldown;
-        this.resetSkillTwoCooldown = this.skillTwoCooldown;
-        this.resetSkillThreeCooldown = this.skillThreeCooldown;
         this.defeated = false;
     }
 
@@ -49,9 +46,6 @@ public class Player extends GameCharacter implements Skills {
         this.skillOneManaUsage = 25;
         this.skillTwoManaUsage = 50;
         this.skillThreeManaUsage = 100;
-        this.resetSkillOneCooldown = this.skillOneCooldown;
-        this.resetSkillTwoCooldown = this.skillTwoCooldown;
-        this.resetSkillThreeCooldown = this.skillThreeCooldown;
         this.defeated = false;
     }
 
@@ -66,9 +60,6 @@ public class Player extends GameCharacter implements Skills {
         this.skillOneManaUsage = 25;
         this.skillTwoManaUsage = 50;
         this.skillThreeManaUsage = 100;
-        this.resetSkillOneCooldown = this.skillOneCooldown;
-        this.resetSkillTwoCooldown = this.skillTwoCooldown;
-        this.resetSkillThreeCooldown = this.skillThreeCooldown;
         this.defeated = false;
     }
 
@@ -203,9 +194,9 @@ public class Player extends GameCharacter implements Skills {
     }
 
     public void resetCoolDown() {
-        this.skillOneCooldown = resetSkillOneCooldown;
-        this.skillTwoCooldown = resetSkillTwoCooldown;
-        this.skillThreeCooldown = resetSkillThreeCooldown;
+        this.skillOneCooldown = 0;
+        this.skillTwoCooldown = 0;
+        this.skillThreeCooldown = 0;
     }
 
     public boolean isDefeated() {

@@ -114,10 +114,10 @@ public class ConsoleOutput {
                             ██╔══╝  ██║   ██║██║   ██║                           
                             ███████╗╚██████╔╝╚██████╔╝                           
                             ╚══════╝ ╚═════╝  ╚═════╝            
-                            
+                
                             BY: SHELL SYNDICATE SOFTWARE CO. LTD
                 """;
-        printWithDelay(purple + title + reset, 5);
+        System.out.println(purple + title + reset);
     }
 
     public void printEndCredits() {
@@ -132,7 +132,7 @@ public class ConsoleOutput {
                                ██║   ██╔══██║██╔══╝  
                                ██║   ██║  ██║███████╗
                                ╚═╝   ╚═╝  ╚═╝╚══════╝
-                            
+                
                             ███████╗███╗   ██╗██████╗
                             ██╔════╝████╗  ██║██╔══██╗
                             █████╗  ██╔██╗ ██║██║  ██║
@@ -147,7 +147,7 @@ public class ConsoleOutput {
     public void loadingScreen() {
         printWithDelay("\n\t\t\t\t\tLOADING GAME CONTENT......", fastDelayPreset);
         System.out.println("1%                                                        100%");
-        printWithDelay("[ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ]", fastDelayPreset);
+        printWithDelay("[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||]", 30);
     }
 
     public void playOrExitMenu() {
@@ -221,7 +221,7 @@ public class ConsoleOutput {
         System.out.println(tabs + "[3] Earl");
         System.out.println(tabs + "[4] The One John");
         System.out.println(tabs + "[5] And Rew");
-        System.out.println(tabs + "[6] OP Character");
+        System.out.println(tabs + "[6] Random");
         System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
     }
 
@@ -238,7 +238,7 @@ public class ConsoleOutput {
         System.out.println(tabs + "[3] Earl");
         System.out.println(tabs + "[4] The One John");
         System.out.println(tabs + "[5] And Rew");
-        System.out.println(tabs + "[6] OP Character");
+        System.out.println(tabs + "[6] Random");
         System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
     }
 
@@ -252,7 +252,7 @@ public class ConsoleOutput {
         System.out.println(tabs + "[4] JF Void");
         System.out.println(tabs + "[5] Deidre");
         System.out.println(tabs + "[6] Random");
-        System.out.print(tabs +"Enter (1, 2, 3, 4, 5, or 6): ");
+        System.out.print(tabs + "Enter (1, 2, 3, 4, 5, or 6): ");
     }
 
     public void enemyCharacterChoices(boolean isPVP) {
@@ -268,7 +268,8 @@ public class ConsoleOutput {
         System.out.println(tabs + "[3] Asta Clover");
         System.out.println(tabs + "[4] JF Void");
         System.out.println(tabs + "[5] Deidre");
-        System.out.print(tabs + "Enter (1, 2, 3, 4, or 5): ");
+        System.out.println(tabs + "[6] Random");
+        System.out.print(tabs + "Enter (1, 2, 3, 4, 5 or 6): ");
     }
 
     public void showRoundHeader(int roundNumber, int turnNumber) {
@@ -333,9 +334,9 @@ public class ConsoleOutput {
     private static String getDamageRange(Player character, int skillIndex) {
         boolean isOP = "OP Character".equals(character.getName());
         return switch (skillIndex) {
-            case 0 -> isOP ? "(Min: 50 | Max: 50)" : "(Min: 20 | Max: 30)";
-            case 1 -> isOP ? "(Min: 100 | Max: 100)" : "(Min: 30 | Max: 40)";
-            case 2 -> isOP ? "(Min: 150 | Max: 150)" : "(Min: 40 | Max: 50)";
+            case 0 -> isOP ? "(Min: 50 | Max: 50)" : "(Min: 40 | Max: 50)";
+            case 1 -> isOP ? "(Min: 100 | Max: 100)" : "(Min: 50 | Max: 60)";
+            case 2 -> isOP ? "(Min: 150 | Max: 150)" : "(Min: 60 | Max: 70)";
             case 3 -> isOP ? "(Min: 500 | Max: 500)" : "(Min: 100 | Max: 150)";
             default -> "(Min: ? | Max: ?)";
         };
@@ -354,9 +355,11 @@ public class ConsoleOutput {
                 playerChoice = scanner.nextInt();
                 if (playerChoice < 1 || playerChoice > 6) {
                     throw new InputMismatchException();
-                } else {
-                    break;
+                } else if (playerChoice == 6) {
+                    // random values from 1 to 5, 6 is an out of bounds value
+                    playerChoice = random.nextInt(1, 6);
                 }
+                break;
             } catch (InputMismatchException error) {
                 System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                 scanner.nextLine();
@@ -377,8 +380,9 @@ public class ConsoleOutput {
                 if (playerChoice < 1 || playerChoice > 6) {
                     throw new InputMismatchException();
                 } else {
-                    break;
+                    playerChoice = random.nextInt(1, 6);
                 }
+                break;
             } catch (InputMismatchException error) {
                 System.out.println("\n\t\t\t\tInvalid Input. Try again!");
                 scanner.nextLine();
@@ -394,11 +398,10 @@ public class ConsoleOutput {
             try {
                 enemyCharacterChoices();
                 enemyChoice = scanner.nextInt();
-                if(enemyChoice < 1 || enemyChoice > 6) {
+                if (enemyChoice < 1 || enemyChoice > 6) {
                     throw new InputMismatchException();
-                }
-                else {
-                    enemyChoice = random.nextInt(1, 7);
+                } else if(enemyChoice == 6) {
+                    enemyChoice = random.nextInt(1, 6);
                 }
                 break;
             } catch (InputMismatchException e) {
@@ -418,6 +421,11 @@ public class ConsoleOutput {
                 }
                 enemyCharacterChoices(isPVP);
                 enemyChoice = scanner.nextInt();
+                if (enemyChoice < 1 || enemyChoice > 6) {
+                    throw new InputMismatchException();
+                } else {
+                    enemyChoice = random.nextInt(1, 6);
+                }
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
@@ -632,7 +640,7 @@ public class ConsoleOutput {
                         }
                         case "Deidre" -> {
                             printWithDelay("\nAnd Rew: Another relic", fastDelayPreset);
-                            printWithDelay("\nDeidre: ", fastDelayPreset);
+                            printWithDelay("\nDeidre: This place isn't big enough for the two of us.", fastDelayPreset);
                         }
                     }
                 }
@@ -777,7 +785,6 @@ public class ConsoleOutput {
             case 4 -> player = new Player("The One John", "Upper Cut", "Counterpalm", "Flaring Punches");
             case 5 ->
                     player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
-            case 6 -> player = new OPCharacter("OP Character", "OP Skill One", "OP Skill Two", "OP Skill Three");
         }
 
         int enemyChoice = enemyCharacterChoiceInputHandler(isPVP);
@@ -1060,16 +1067,14 @@ public class ConsoleOutput {
         System.out.println();
         printCenter(" [MODE] PLAYER VS COMPUTER ", len, '-', fastDelayPreset);
         printCenter(" [SYSTEM] YOU WILL ENCOUNTER AN UNPREDICTABLE OPPONENT ", len, '-', fastDelayPreset);
-        int playerChoice = playerCharacterChoiceInputHandler();
 
+        int playerChoice = playerCharacterChoiceInputHandler();
         switch (playerChoice) {
             case 1 -> player = new Player("Cosmic Dassel", "Provoked Punch", "Bug Overflow", "Overclock");
             case 2 -> player = new Player("Khylle The Reaper", "Karate Kick", "Flying Food", "Voice of Destruction");
             case 3 -> player = new Player("Earl", "Knee Strike", "Double Kick", "Dodge");
             case 4 -> player = new Player("The One John", "Upper Cut", "Counterpalm", "Flaring Punches");
-            case 5 ->
-                    player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
-            case 6 -> player = new OPCharacter("OP Character", "OP Skill One", "OP Skill Two", "OP Skill Three");
+            case 5 -> player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
         }
 
 
@@ -1089,7 +1094,7 @@ public class ConsoleOutput {
             specialEncounterCounterPart(player, enemy);
         }
 
-        final int matchNumber = 1;
+        int matchNumber = 1;
         int turn = 1;
         boolean isRunning = true;
         do {
@@ -1291,9 +1296,7 @@ public class ConsoleOutput {
             case 2 -> player = new Player("Khylle The Reaper", "Karate Kick", "Flying Food", "Voice of Destruction");
             case 3 -> player = new Player("Earl", "Knee Strike", "Double Kick", "Dodge");
             case 4 -> player = new Player("The One John", "Upper Cut", "Counterpalm", "Flaring Punches");
-            case 5 ->
-                    player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
-            case 6 -> player = new OPCharacter("OP Character", "OP Skill One", "OP Skill Two", "OP Skill Three");
+            case 5 -> player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
         }
 
 
@@ -1383,17 +1386,25 @@ public class ConsoleOutput {
                 if (enemy.getHitpoints() <= 0) {
                     printWithDelay("\n" + enemy.getName() + " has been defeated!", fastDelayPreset);
                     wins++;
-                    int healAmount;
+                    int healAmount = 0;
+                    int manaAmount = 0;
 
-                    if (player.getHitpoints() < 250) {
-
-                        healAmount = random.nextInt(75, 101);
+                    if (player.getHitpoints() <= 100) {
+                        healAmount = random.nextInt(150, 161);
                     } else {
-                        healAmount = random.nextInt(100, 151);
+                        healAmount = random.nextInt(70, 81);
+                    }
+
+                    if(player.getMana() <= 50) {
+                        manaAmount = random.nextInt(80, 101);
+                    } else {
+                        manaAmount = random.nextInt(40, 51);
                     }
 
                     player.heal(healAmount);
+                    player.increaseMana(manaAmount);
                     printWithDelay("\n" + player.getName() + " recovers " + healAmount + " HP after the victory!", fastDelayPreset);
+                    printWithDelay("\n" + player.getName() + " recovers " + manaAmount + " Mana after the victory!", fastDelayPreset);
                     System.out.println("\nWins: " + wins + " / 5");
                     enemy.setDefeated(true);
                     enemies.remove(enemy);
@@ -1469,24 +1480,27 @@ public class ConsoleOutput {
                             player.setHitpoints(enemy.skillOne());
                             enemy.reduceMana(enemy.getSkillOneManaUsage());
                             enemy.activateSkillOneCooldown();
-                        } else
+                        } else {
                             player.setHitpoints(enemy.basicAttack());
+                        }
                     }
                     case 2 -> {
                         if (enemy.getSkillTwoCooldown() == 0 && enemy.isSkillTwoUsable()) {
                             player.setHitpoints(enemy.skillTwo());
                             enemy.reduceMana(enemy.getSkillTwoManaUsage());
                             enemy.activateSkillTwoCooldown();
-                        } else
+                        } else {
                             player.setHitpoints(enemy.basicAttack());
+                        }
                     }
                     case 3 -> {
                         if (enemy.getSkillThreeCooldown() == 0 && enemy.isSkillThreeUsable()) {
                             player.setHitpoints(enemy.skillThree());
                             enemy.reduceMana(enemy.getSkillThreeManaUsage());
                             enemy.activateSkillThreeCooldown();
-                        } else
+                        } else {
                             player.setHitpoints(enemy.basicAttack());
+                        }
                     }
                 }
 
@@ -1547,11 +1561,16 @@ public class ConsoleOutput {
                     playerSkillUseMonologue(player, skillChoice);
 
                     switch (skillChoice) {
-                        case 0 -> { boss.setHitpoints(player.basicAttack()); playerActed = true; }
+                        case 0 -> {
+                            boss.setHitpoints(player.basicAttack());
+                            playerActed = true;
+                        }
                         case 1 -> {
-                            if (player.getSkillOneCooldown() > 0) printWithDelay("\n" + player.getSkillOneName() + " is on cooldown!", fastDelayPreset);
-                            else if (!player.isSkillOneUsable()) printWithDelay("\nNot enough mana!", fastDelayPreset);
-                            else {
+                            if (player.getSkillOneCooldown() > 0) {
+                                printWithDelay("\n" + player.getSkillOneName() + " is on cooldown!", fastDelayPreset);
+                            } else if (!player.isSkillOneUsable()) {
+                                printWithDelay("\nNot enough mana!", fastDelayPreset);
+                            } else {
                                 boss.setHitpoints(player.skillOne());
                                 player.reduceMana(player.getSkillOneManaUsage());
                                 player.activateSkillOneCooldown();
@@ -1560,7 +1579,9 @@ public class ConsoleOutput {
                         }
                         case 2 -> { /* similar to case 1 for skillTwo */ }
                         case 3 -> { /* similar to case 1 for skillThree */ }
-                        default -> { System.out.println("Invalid choice"); }
+                        default -> {
+                            System.out.println("Invalid choice");
+                        }
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid Input. Try again!");
@@ -1636,14 +1657,16 @@ public class ConsoleOutput {
         String green = "\u001B[32m";
         String reset = "\u001B[0m";
         String text = """
-                  ░██████   ░██                                      ░█████████ ░██          ░██████  \s
-                 ░██   ░██  ░██                                            ░██              ░██   ░██ \s
-                ░██     ░██ ░████████  ░█████████████   ░██████           ░██   ░██        ░██     ░██\s
-                ░██     ░██ ░██    ░██ ░██   ░██   ░██       ░██        ░███    ░██░██████ ░██     ░██\s
-                ░██     ░██ ░██    ░██ ░██   ░██   ░██  ░███████       ░██      ░██        ░██     ░██\s
-                 ░██   ░██  ░██    ░██ ░██   ░██   ░██ ░██   ░██      ░██       ░██         ░██   ░██ \s
-                  ░██████   ░██    ░██ ░██   ░██   ░██  ░█████░██    ░█████████ ░██          ░██████  \s
-            
+                
+                  ░██████   ░██                                      ░█████████ ░██          ░██████  
+                 ░██   ░██  ░██                                            ░██              ░██   ░██ 
+                ░██     ░██ ░████████  ░█████████████   ░██████           ░██   ░██        ░██     ░██
+                ░██     ░██ ░██    ░██ ░██   ░██   ░██       ░██        ░███    ░██░██████ ░██     ░██
+                ░██     ░██ ░██    ░██ ░██   ░██   ░██  ░███████       ░██      ░██        ░██     ░██
+                 ░██   ░██  ░██    ░██ ░██   ░██   ░██ ░██   ░██      ░██       ░██         ░██   ░██ 
+                  ░██████   ░██    ░██ ░██   ░██   ░██  ░█████░██    ░█████████ ░██          ░██████  
+                
+                
                 """;
         printWithDelay(purple + text + reset, 5);
     }
