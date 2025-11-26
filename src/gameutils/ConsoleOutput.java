@@ -783,16 +783,14 @@ public class ConsoleOutput {
             case 2 -> player = new Player("Khylle The Reaper", "Karate Kick", "Flying Food", "Voice of Destruction");
             case 3 -> player = new Player("Earl", "Knee Strike", "Double Kick", "Dodge");
             case 4 -> player = new Player("The One John", "Upper Cut", "Counterpalm", "Flaring Punches");
-            case 5 ->
-                    player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
+            case 5 -> player = new Player("And Rew", "Dragon Fist", "Dragon First Missiles", "Dragon's Verdict of Demise");
         }
 
         int enemyChoice = enemyCharacterChoiceInputHandler(isPVP);
         switch (enemyChoice) {
             case 1 -> enemy = new Enemy("Kaniel Outis", "Image Burn", "Spirit Compression", "Sanity Drain");
             case 2 -> enemy = new Enemy("Van Berskville", "Stab", "Getsuga", "Fang Sword Style");
-            case 3 ->
-                    enemy = new Enemy("Asta Clover", "Demon Slayer Slash", "Demon Dweller Double Slash", "Demon Union");
+            case 3 -> enemy = new Enemy("Asta Clover", "Demon Slayer Slash", "Demon Dweller Double Slash", "Demon Union");
             case 4 -> enemy = new Enemy("JF Void", "Void Chop", "Void Deflect", "Void Stagger Palm");
             case 5 -> enemy = new Enemy("Deidre", "Lightning Cut", "Thunder Cleave", "Final Turn");
         }
@@ -1088,189 +1086,251 @@ public class ConsoleOutput {
             case 5 -> enemy = new Enemy("Deidre", "Lightning Cut", "Thunder Cleave", "Final Turn");
         }
 
-        printOrSkipNarrativeSegment(player, enemy);
+        int round = 1;
+        boolean isRunning = true;
+        char ans = 'Y';
+        int playerWin = 0;
+        int enemyWin = 0;
 
+        printOrSkipNarrativeSegment(player, enemy);
         if (playerChoice == enemyChoice) {
             specialEncounterCounterPart(player, enemy);
         }
 
-        int matchNumber = 1;
-        int turn = 1;
-        boolean isRunning = true;
         do {
-            int playerSkillChoice = 0, enemySkillChoice = 0, newPlayerMana = 0, newEnemyMana = 0;
 
-            showRoundStatus(matchNumber, turn, player, enemy);
+            isRunning = true;
+            int turn = 1;
+            printWithDelay("\n-------------------- Round " + round + " Starts --------------------", fastDelayPreset);
 
-            System.out.println();
-            //show both health and Mana
-            System.out.println("------------------- Current Status -------------------");
-            printWithDelay("\n[Player] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
-            printWithDelay("\n[Player] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
+            do {
+                int playerSkillChoice = 0, enemySkillChoice = 0, newPlayerMana = 0, newEnemyMana = 0;
 
-            boolean playerActed = false;
+                showRoundStatus(round, turn, player, enemy);
 
-            while (!playerActed) {
+                System.out.println();
+                //show both health and Mana
+                System.out.println("------------------- Current Status -------------------");
+                printWithDelay("\n[Player] " + player.getName() + " Health: " + player.getHitpoints(), fastDelayPreset);
+                printWithDelay("\n[Player] " + player.getName() + " Mana: " + player.getMana(), fastDelayPreset);
 
-                while (true) {
-                    try {
-                        playerSkillChoices(player);
-                        playerSkillChoice = scanner.nextInt();
-                        if (playerSkillChoice < 0 || playerSkillChoice > 3) {
-                            throw new InputMismatchException();
-                        } else {
-                            break;
+                boolean playerActed = false;
+
+                while (!playerActed) {
+
+                    while (true) {
+                        try {
+                            playerSkillChoices(player);
+                            playerSkillChoice = scanner.nextInt();
+                            if (playerSkillChoice < 0 || playerSkillChoice > 3) {
+                                throw new InputMismatchException();
+                            } else {
+                                break;
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
+                            scanner.nextLine();
                         }
-                    } catch (InputMismatchException e) {
-                        System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
-                        scanner.nextLine();
+                    }
+
+                    // Player Skill Dialogue
+                    playerSkillUseMonologue(player, playerSkillChoice);
+
+                    switch (playerSkillChoice) {
+                        case 0 -> {
+                            enemy.setHitpoints(player.basicAttack());
+                            playerActed = true;
+                        }
+                        case 1 -> {
+                            if (player.getSkillOneCooldown() > 0) {
+                                printWithDelay("\n" + player.getSkillOneName() + " is on cooldown! Choose again.", fastDelayPreset);
+                                break;
+                            } else if (!player.isSkillOneUsable()) {
+                                printWithDelay("\nNot enough mana to use " + player.getSkillOneName() + "! Choose again.", fastDelayPreset);
+                                break;
+                            } else {
+                                enemy.setHitpoints(player.skillOne());
+                                player.reduceMana(player.getSkillOneManaUsage());
+                                player.activateSkillOneCooldown();
+                                playerActed = true;
+                            }
+                        }
+                        case 2 -> {
+                            if (player.getSkillTwoCooldown() > 0) {
+                                printWithDelay("\n" + player.getSkillTwoName() + " is on cooldown! Choose again.", fastDelayPreset);
+                                break;
+                            } else if (!player.isSkillTwoUsable()) {
+                                printWithDelay("\nNot enough mana to use " + player.getSkillTwoName() + "! Choose again.", fastDelayPreset);
+                                break;
+                            } else {
+                                enemy.setHitpoints(player.skillTwo());
+                                player.reduceMana(player.getSkillTwoManaUsage());
+                                player.activateSkillTwoCooldown();
+                                playerActed = true;
+                            }
+                        }
+                        case 3 -> {
+                            if (player.getSkillThreeCooldown() > 0) {
+                                printWithDelay("\n" + player.getSkillThreeName() + " is on cooldown! Choose again.", fastDelayPreset);
+                                break;
+                            } else if (!player.isSkillThreeUsable()) {
+                                printWithDelay("\nNot enough mana to use " + player.getSkillThreeName() + "! Choose again.", fastDelayPreset);
+                                break;
+                            } else {
+                                enemy.setHitpoints(player.skillThree());
+                                player.reduceMana(player.getSkillThreeManaUsage());
+                                player.activateSkillThreeCooldown();
+                                playerActed = true;
+                            }
+                        }
                     }
                 }
 
-                // Player Skill Dialogue
-                playerSkillUseMonologue(player, playerSkillChoice);
+                if (enemy.getHitpoints() <= 0) {
+                    printWithDelay("\n" + enemy.getName() + " has been defeated!", fastDelayPreset);
+                    break;
+                }
 
-                switch (playerSkillChoice) {
+                newPlayerMana = random.nextInt(25, 51);
+                player.increaseMana(newPlayerMana);
+
+                printWithDelay("\n" + player.getName() + " regenerates " + newPlayerMana + " mana. (Mana: " + player.getMana() + ")", fastDelayPreset);
+
+                System.out.println();
+                System.out.println("------------------ CURRENT STATUS ------------------");
+                printWithDelay("\n[Computer] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
+                printWithDelay("\n[Computer] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
+
+                enemySkillChoice = random.nextInt(0, 4);
+                enemySkillChoices(enemy);
+
+                enemySkillUseMonologue(enemy, enemySkillChoice);
+
+                switch (enemySkillChoice) {
                     case 0 -> {
-                        enemy.setHitpoints(player.basicAttack());
-                        playerActed = true;
+                        player.setHitpoints(enemy.basicAttack());
                     }
                     case 1 -> {
-                        if (player.getSkillOneCooldown() > 0) {
-                            printWithDelay("\n" + player.getSkillOneName() + " is on cooldown! Choose again.", fastDelayPreset);
-                            break;
-                        } else if (!player.isSkillOneUsable()) {
-                            printWithDelay("\nNot enough mana to use " + player.getSkillOneName() + "! Choose again.", fastDelayPreset);
-                            break;
+                        if (enemy.getSkillOneCooldown() == 0 && enemy.isSkillOneUsable()) {
+                            player.setHitpoints(enemy.skillOne());
+                            enemy.reduceMana(enemy.getSkillOneManaUsage());
+                            enemy.activateSkillOneCooldown();
+                        } else if (enemy.getSkillOneCooldown() > 0) {
+                            printWithDelay("\n" + enemy.getName() + "'s " + enemy.getSkillOneName() + " is on cooldown!", fastDelayPreset);
+                            player.setHitpoints(enemy.basicAttack());
                         } else {
-                            enemy.setHitpoints(player.skillOne());
-                            player.reduceMana(player.getSkillOneManaUsage());
-                            player.activateSkillOneCooldown();
-                            playerActed = true;
+                            printWithDelay("\n" + enemy.getName() + " tried to use " + enemy.getSkillOneName() + " but didn't have enough mana.", fastDelayPreset);
+                            player.setHitpoints(enemy.basicAttack());
                         }
                     }
                     case 2 -> {
-                        if (player.getSkillTwoCooldown() > 0) {
-                            printWithDelay("\n" + player.getSkillTwoName() + " is on cooldown! Choose again.", fastDelayPreset);
-                            break;
-                        } else if (!player.isSkillTwoUsable()) {
-                            printWithDelay("\nNot enough mana to use " + player.getSkillTwoName() + "! Choose again.", fastDelayPreset);
-                            break;
+                        if (enemy.getSkillTwoCooldown() == 0 && enemy.isSkillTwoUsable()) {
+                            player.setHitpoints(enemy.skillTwo());
+                            enemy.reduceMana(enemy.getSkillTwoManaUsage());
+                            enemy.activateSkillTwoCooldown();
+                        } else if (enemy.getSkillTwoCooldown() > 0) {
+                            printWithDelay("\n" + enemy.getName() + "'s " + enemy.getSkillTwoName() + " is on cooldown!", fastDelayPreset);
+                            player.setHitpoints(enemy.basicAttack());
                         } else {
-                            enemy.setHitpoints(player.skillTwo());
-                            player.reduceMana(player.getSkillTwoManaUsage());
-                            player.activateSkillTwoCooldown();
-                            playerActed = true;
+                            printWithDelay("\n" + enemy.getName() + " tried to use " + enemy.getSkillTwoName() + " but didn't have enough mana.", fastDelayPreset);
+                            player.setHitpoints(enemy.basicAttack());
                         }
                     }
                     case 3 -> {
-                        if (player.getSkillThreeCooldown() > 0) {
-                            printWithDelay("\n" + player.getSkillThreeName() + " is on cooldown! Choose again.", fastDelayPreset);
-                            break;
-                        } else if (!player.isSkillThreeUsable()) {
-                            printWithDelay("\nNot enough mana to use " + player.getSkillThreeName() + "! Choose again.", fastDelayPreset);
-                            break;
+                        if (enemy.getSkillThreeCooldown() == 0 && enemy.isSkillThreeUsable()) {
+                            player.setHitpoints(enemy.skillThree());
+                            enemy.reduceMana(enemy.getSkillThreeManaUsage());
+                            enemy.activateSkillThreeCooldown();
+                        } else if (enemy.getSkillThreeCooldown() > 0) {
+                            printWithDelay("\n" + enemy.getName() + "'s " + enemy.getSkillThreeName() + " is on cooldown!", fastDelayPreset);
+                            player.setHitpoints(enemy.basicAttack());
                         } else {
-                            enemy.setHitpoints(player.skillThree());
-                            player.reduceMana(player.getSkillThreeManaUsage());
-                            player.activateSkillThreeCooldown();
-                            playerActed = true;
+                            printWithDelay("\n" + enemy.getName() + " tried to use " + enemy.getSkillThreeName() + " but didn't have enough mana.", fastDelayPreset);
+                            player.setHitpoints(enemy.basicAttack());
                         }
                     }
                 }
-            }
 
-            if (enemy.getHitpoints() <= 0) {
-                printWithDelay("\n" + enemy.getName() + " has been defeated!", fastDelayPreset);
-                break;
-            }
+                newEnemyMana = random.nextInt(10, 31);
+                enemy.increaseMana(newEnemyMana);
 
-            newPlayerMana = random.nextInt(25, 51);
-            player.increaseMana(newPlayerMana);
+                printWithDelay("\n" + enemy.getName() + " regenerates " + newEnemyMana + " mana. (Mana: " + enemy.getMana() + ")", fastDelayPreset);
 
-            printWithDelay("\n" + player.getName() + " regenerates " + newPlayerMana + " mana. (Mana: " + player.getMana() + ")", fastDelayPreset);
+                player.reduceSkillOneCooldown();
+                player.reduceSkillTwoCooldown();
+                player.reduceSkillThreeCooldown();
 
-            System.out.println();
-            System.out.println("------------------ CURRENT STATUS ------------------");
-            printWithDelay("\n[Computer] " + enemy.getName() + " Health: " + enemy.getHitpoints(), fastDelayPreset);
-            printWithDelay("\n[Computer] " + enemy.getName() + " Mana: " + enemy.getMana(), fastDelayPreset);
+                enemy.reduceSkillOneCooldown();
+                enemy.reduceSkillTwoCooldown();
+                enemy.reduceSkillThreeCooldown();
+                turn++;
 
-            enemySkillChoice = random.nextInt(0, 4);
-            enemySkillChoices(enemy);
-
-            enemySkillUseMonologue(enemy, enemySkillChoice);
-
-            switch (enemySkillChoice) {
-                case 0 -> {
-                    player.setHitpoints(enemy.basicAttack());
+                if (player.getHitpoints() <= 0 || enemy.getHitpoints() <= 0) {
+                    isRunning = false;
                 }
-                case 1 -> {
-                    if (enemy.getSkillOneCooldown() == 0 && enemy.isSkillOneUsable()) {
-                        player.setHitpoints(enemy.skillOne());
-                        enemy.reduceMana(enemy.getSkillOneManaUsage());
-                        enemy.activateSkillOneCooldown();
-                    } else if (enemy.getSkillOneCooldown() > 0) {
-                        printWithDelay("\n" + enemy.getName() + "'s " + enemy.getSkillOneName() + " is on cooldown!", fastDelayPreset);
-                        player.setHitpoints(enemy.basicAttack());
-                    } else {
-                        printWithDelay("\n" + enemy.getName() + " tried to use " + enemy.getSkillOneName() + " but didn't have enough mana.", fastDelayPreset);
-                        player.setHitpoints(enemy.basicAttack());
+
+            } while (isRunning);
+
+            if (player.getHitpoints() > 0) {
+                playerWin++;
+                printWithDelay("\n" + player.getName() + " wins!\n\n", fastDelayPreset);
+            } else {
+                enemyWin++;
+                printWithDelay("\n" + enemy.getName() + " wins!\n\n", fastDelayPreset);
+            }
+
+            printWithDelay("-------------------- End of Round " + round + " --------------------\n", fastDelayPreset);
+
+            if (round >= 3) {
+                printWithDelay("\n==================== Final Results =====================\n", fastDelayPreset);
+                printWithDelay(player.getName() + " Wins: " + playerWin + "\n", fastDelayPreset);
+                printWithDelay(enemy.getName() + " Wins: " + enemyWin + "\n", fastDelayPreset);
+
+                if (playerWin > enemyWin)
+                    printWithDelay("\n" + player.getName() + " is the Final Winner!\n", fastDelayPreset);
+                else if (enemyWin > playerWin)
+                    printWithDelay("\n" + enemy.getName() + " is the Final Winner!\n", fastDelayPreset);
+                else
+                    printWithDelay("\n It's a Draw! \n", fastDelayPreset);
+
+                printWithDelay("\nGame Over! Thanks for playing!\n", fastDelayPreset);
+                System.exit(0);
+            } else {
+                while (true) {
+                    try {
+                        System.out.print("Would you like to proceed to the next round? (Y/N): ");
+                        ans = Character.toUpperCase(scanner.next().charAt(0));
+
+                        if (ans == 'Y') {
+                            player.resetStats();
+                            player.resetCoolDown();
+                            enemy.resetStats();
+                            enemy.resetCoolDown();
+                            round++;
+                        } else if (ans == 'N') {
+                            printWithDelay("\n==================== Final Results =====================\n", fastDelayPreset);
+                            printWithDelay(player.getName() + " Wins: " + playerWin + "\n", fastDelayPreset);
+                            printWithDelay(enemy.getName() + " Wins: " + enemyWin + "\n", fastDelayPreset);
+
+                            if (playerWin > enemyWin)
+                                printWithDelay("\n" + player.getName() + " is the Final Winner!\n", fastDelayPreset);
+                            else if (enemyWin > playerWin)
+                                printWithDelay("\n" + enemy.getName() + " is the Final Winner!\n", fastDelayPreset);
+                            else
+                                printWithDelay("\n It's a Draw! \n", fastDelayPreset);
+
+                            printWithDelay("\nGame Over! Thanks for playing!\n", fastDelayPreset);
+                        } else {
+                            throw new InputMismatchException();
+                        }
+                        break;
+                    } catch (InputMismatchException error) {
+                        System.out.println("\n\t\t\t\tInvalid Input. Try again!");
+                        scanner.nextLine();
                     }
                 }
-                case 2 -> {
-                    if (enemy.getSkillTwoCooldown() == 0 && enemy.isSkillTwoUsable()) {
-                        player.setHitpoints(enemy.skillTwo());
-                        enemy.reduceMana(enemy.getSkillTwoManaUsage());
-                        enemy.activateSkillTwoCooldown();
-                    } else if (enemy.getSkillTwoCooldown() > 0) {
-                        printWithDelay("\n" + enemy.getName() + "'s " + enemy.getSkillTwoName() + " is on cooldown!", fastDelayPreset);
-                        player.setHitpoints(enemy.basicAttack());
-                    } else {
-                        printWithDelay("\n" + enemy.getName() + " tried to use " + enemy.getSkillTwoName() + " but didn't have enough mana.", fastDelayPreset);
-                        player.setHitpoints(enemy.basicAttack());
-                    }
-                }
-                case 3 -> {
-                    if (enemy.getSkillThreeCooldown() == 0 && enemy.isSkillThreeUsable()) {
-                        player.setHitpoints(enemy.skillThree());
-                        enemy.reduceMana(enemy.getSkillThreeManaUsage());
-                        enemy.activateSkillThreeCooldown();
-                    } else if (enemy.getSkillThreeCooldown() > 0) {
-                        printWithDelay("\n" + enemy.getName() + "'s " + enemy.getSkillThreeName() + " is on cooldown!", fastDelayPreset);
-                        player.setHitpoints(enemy.basicAttack());
-                    } else {
-                        printWithDelay("\n" + enemy.getName() + " tried to use " + enemy.getSkillThreeName() + " but didn't have enough mana.", fastDelayPreset);
-                        player.setHitpoints(enemy.basicAttack());
-                    }
-                }
             }
-
-            newEnemyMana = random.nextInt(10, 31);
-            enemy.increaseMana(newEnemyMana);
-
-            printWithDelay("\n" + enemy.getName() + " regenerates " + newEnemyMana + " mana. (Mana: " + enemy.getMana() + ")", fastDelayPreset);
-
-            player.reduceSkillOneCooldown();
-            player.reduceSkillTwoCooldown();
-            player.reduceSkillThreeCooldown();
-
-            enemy.reduceSkillOneCooldown();
-            enemy.reduceSkillTwoCooldown();
-            enemy.reduceSkillThreeCooldown();
-            turn++;
-
-            if (player.getHitpoints() <= 0 || enemy.getHitpoints() <= 0) {
-                isRunning = false;
-            }
-
-        } while (isRunning);
-
-        if (player.getHitpoints() > 0) {
-            printWithDelay("\n" + player.getName() + " wins!\n\n", fastDelayPreset);
-        } else {
-            printWithDelay("\n" + enemy.getName() + " wins!\n\n", fastDelayPreset);
-        }
-
+        } while (ans != 'N' && round <= 3);
     }
 
     public void arcadeBattleGameMode() {
