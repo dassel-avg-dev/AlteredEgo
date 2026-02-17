@@ -177,23 +177,24 @@ public class ConsoleOutput {
         int choice = -1;
         String tabs = "\t\t\t";
         while (true) {
-            System.out.println();
-            System.out.println("------------------ CHOOSE GAME MODE ------------------");
-            System.out.println(tabs + "[1] Player vs Player");
-            System.out.println(tabs + "[2] Player vs Computer");
-            System.out.println(tabs + "[3] Arcade Mode");
-            System.out.println(tabs + "[4] Random");
+            String text = """
+                    
+                    ------------------ CHOOSE GAME MODE ------------------
+                    
+                                   [1] Player vs Player
+                                   [2] Player vs Computer
+                                   [3] Arcade Mode
+                                   [4] Random
+                    """;
+            System.out.println(text);
             System.out.print(tabs + "Enter choice (1, 2, 3, or 4): ");
             try {
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 4) {
+                if (choice < 1 || choice > 4)
                     throw new InputMismatchException();
-                } else if (choice == 4) {
+                if (choice == 4)
                     choice = random.nextInt(1, 4);
-                    break;
-                } else {
-                    break;
-                }
+                break;
             } catch (InputMismatchException e) {
                 System.out.println("\n\t\t\t\tInvalid Input, Try Again!");
                 scanner.nextLine();
@@ -214,62 +215,76 @@ public class ConsoleOutput {
 
     public void playerCharacterChoices() {
         String tabs = "\t\t\t";
-        System.out.println();
-        System.out.println("----------------- CHOOSE YOUR CHARACTER ----------------");
-        System.out.println(tabs + "[1] Cosmic Dassel");
-        System.out.println(tabs + "[2] Khylle The Reaper");
-        System.out.println(tabs + "[3] Earl");
-        System.out.println(tabs + "[4] The One John");
-        System.out.println(tabs + "[5] And Rew");
-        System.out.println(tabs + "[6] Random");
+        String text = """
+                     
+                    ----------------- CHOOSE YOUR CHARACTER ----------------
+                     
+                                    [1] Cosmic Dassel
+                                    [2] Khylle The Reaper
+                                    [3] Earl
+                                    [4] The One John
+                                    [5] And Rew
+                                    [5] And Rew
+                                    [6] Random
+                    """;
+        System.out.println(text);
         System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
     }
 
     public void playerCharacterChoices(boolean isPVP) {
         String tabs = "\t\t\t";
-        System.out.println();
         if (isPVP) {
-            System.out.println("----------------- CHOOSE YOUR CHAMPION ----------------");
-        } else {
-            System.out.println("----------------- CHOOSE YOUR CHARACTER ----------------");
+            String text = """
+                    
+                    ----------------- CHOOSE YOUR CHAMPION ----------------
+                    
+                                    [1] Cosmic Dassel
+                                    [2] Khylle The Reaper
+                                    [3] Earl
+                                    [4] The One John
+                                    [5] And Rew
+                                    [6] Random
+                    """;
+            System.out.println(text);
+            System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
         }
-        System.out.println(tabs + "[1] Cosmic Dassel");
-        System.out.println(tabs + "[2] Khylle The Reaper");
-        System.out.println(tabs + "[3] Earl");
-        System.out.println(tabs + "[4] The One John");
-        System.out.println(tabs + "[5] And Rew");
-        System.out.println(tabs + "[6] Random");
-        System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
     }
 
 
     public void enemyCharacterChoices() {
         String tabs = "\t\t\t";
-        System.out.println("\n------------------ CHOOSE YOUR ENEMY ------------------");
-        System.out.println(tabs + "[1] Kaniel Outis");
-        System.out.println(tabs + "[2] Van Berksville");
-        System.out.println(tabs + "[3] Asta Clover");
-        System.out.println(tabs + "[4] JF Void");
-        System.out.println(tabs + "[5] Deidre");
-        System.out.println(tabs + "[6] Random");
+        String text = """
+                    
+                    ----------------- CHOOSE YOUR ENEMY ----------------
+                    
+                                    [1] Kaniel Outis
+                                    [2] Van Berksville
+                                    [3] Asta Clover
+                                    [4] JF Void
+                                    [5] Deidre
+                                    [6] Random
+                    """;
+        System.out.println(text);
         System.out.print(tabs + "Enter (1, 2, 3, 4, 5, or 6): ");
     }
 
     public void enemyCharacterChoices(boolean isPVP) {
         String tabs = "\t\t\t";
-        System.out.println();
         if (isPVP) {
-            System.out.println("------------------ CHOOSE YOUR CHAMPION ------------------");
-        } else {
-            System.out.println("------------------ CHOOSE YOUR ENEMY ---------------------");
+            String text = """
+                    
+                    ----------------- CHOOSE YOUR CHAMPION ----------------
+                    
+                                    [1] Kaniel Outis
+                                    [2] Van Berksville
+                                    [3] Asta Clover
+                                    [4] JF Void
+                                    [5] Deidre
+                                    [6] Random
+                    """;
+            System.out.println(text);
+            System.out.print(tabs + "Enter choice (1, 2, 3, 4, 5 or 6): ");
         }
-        System.out.println(tabs + "[1] Kaniel Outis");
-        System.out.println(tabs + "[2] Van Berksville");
-        System.out.println(tabs + "[3] Asta Clover");
-        System.out.println(tabs + "[4] JF Void");
-        System.out.println(tabs + "[5] Deidre");
-        System.out.println(tabs + "[6] Random");
-        System.out.print(tabs + "Enter (1, 2, 3, 4, 5 or 6): ");
     }
 
     public void showRoundHeader(int roundNumber, int turnNumber) {
@@ -1470,50 +1485,36 @@ public class ConsoleOutput {
                     enemies.remove(enemy);
 
 
-                    Enemy ohmaZio = new Enemy("Ohma Zi-O", "Temporal Strike", "Rift Crush", "King's Judgment");
-                    ohmaZio.setHitpoints(1000);
-                    ohmaZio.setMana(300);
 
 
                     if (wins == 5) {
-                        printWithDelay("\n\nInitiating ending game sequence", fastDelayPreset);
+                        Enemy ohmaZio = new Enemy("Ohma Zi-O", "Temporal Strike", "Rift Crush", "King's Judgment");
+                        ohmaZio.setHitpoints(1000);
+                        ohmaZio.setMana(300);
+                        ohmaZio.resetCoolDown();
+                        player.resetCoolDown();
 
+                        String text = """
+                                
+                                
+                                Initiating ending game sequence
+                                ......................
+                                fail fail fail fail fail fail error 404
+                                
+                                The atmosphere has shifted...
+                                Time has stopped...
+                                A giant rift appeared!!!
+                                
+                                Blessing of Time!
+                                Highest!
+                                Best!
+                                Strongest King!
 
-                        printWithDelay("......................", fastDelayPreset);
-
-
-                        printWithDelay("fail fail fail fail fail fail error 404", fastDelayPreset);
-
-
-                        printWithDelay("\nThe atmosphere has shifted...", fastDelayPreset);
-
-
-                        printWithDelay("Time has stopped...", fastDelayPreset);
-
-
-                        printWithDelay("A giant rift appeared!!!", fastDelayPreset);
-
-
-                        printWithDelay("\nBlessing of Time!", fastDelayPreset);
-
-
-                        printWithDelay("Highest!", fastDelayPreset);
-
-
-                        printWithDelay("Best!", fastDelayPreset);
-
-
-                        printWithDelay("Maximum!", fastDelayPreset);
-
-
-                        printWithDelay("Strongest King!", fastDelayPreset);
-
-
+                                """;
+                        printWithDelay(text, fastDelayPreset);
                         printFinalBoss();
                         fightFinalBoss(player, ohmaZio, scanner, random);
-                        break;
-
-
+                        return;
                     }
                     fightActive = false;
                     break;

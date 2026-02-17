@@ -25,20 +25,18 @@ public class Main {
                 case 3 -> CO.arcadeBattleGameMode();
             }
 
-            char playAgainOrExitChoice = '0';
             while (true) {
                 try {
                     System.out.print("\n\t\t\tWOULD YOU LIKE TO PLAY AGAIN? (Y / N): ");
-                    playAgainOrExitChoice = scanner.next().toUpperCase().charAt(0);
+                    char playAgainOrExitChoice = scanner.next().toUpperCase().charAt(0);
                     if (playAgainOrExitChoice == 'Y') {
                         System.out.println("\n\n\n");
-                        break;
                     } else if (playAgainOrExitChoice == 'N') {
                         gameIsRunning = false;
-                        break;
                     } else {
                         throw new InputMismatchException();
                     }
+                    break;
                 } catch (InputMismatchException e) {
                     System.out.println("\t\t\tInvalid Input, Try Again!");
                     scanner.nextLine();
