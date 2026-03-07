@@ -11,7 +11,7 @@ Background Story: Five random people bought the same old game console in a store
   Daven Khylle Famat  
   Francis Earl Brigoli  
   Alieyandrew Juhanes Idala  
-  John Fiel Amancio  
+  John Fiel Amancio (Former Member)
 
 ## Usage: Clone this Repository
 ```
