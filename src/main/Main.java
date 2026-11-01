@@ -1,21 +1,20 @@
 package main;
 
-import gameutils.*;
-
-import java.util.*;
+import gameutils.ConsoleOutput;
 
 public class Main {
-    static Scanner scanner = new Scanner(System.in);
-    static Random random = new Random();
 
     public static void main(String[] args) {
         ConsoleOutput CO = new ConsoleOutput();
 
         boolean gameIsRunning = true;
-        do {
+        while (gameIsRunning) {
             CO.gameTitle();
             CO.loadingScreen();
-            CO.printPlayOrExitMenu();
+
+            if (!CO.promptPlayOrExit()) {
+                break;
+            }
 
             int gameModeChoice = CO.gameModeChoiceInputHandler();
 
@@ -25,28 +24,9 @@ public class Main {
                 case 3 -> CO.arcadeBattleGameMode();
             }
 
-            while (true) {
-                try {
-                    System.out.print("\n\t\t\tWOULD YOU LIKE TO PLAY AGAIN? (Y / N): ");
-                    char playAgainOrExitChoice = scanner.next().toUpperCase().charAt(0);
-                    if (playAgainOrExitChoice == 'Y') {
-                        System.out.println("\n\n\n");
-                    } else if (playAgainOrExitChoice == 'N') {
-                        gameIsRunning = false;
-                    } else {
-                        throw new InputMismatchException();
-                    }
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("\t\t\tInvalid Input, Try Again!");
-                    scanner.nextLine();
-                }
-            }
-        } while (gameIsRunning);
+            gameIsRunning = CO.promptPlayAgain();
+        }
 
         CO.printEndCredits();
-
-        scanner.close();
     }
-
 }
